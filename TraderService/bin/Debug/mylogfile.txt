@@ -1,0 +1,214 @@
+2013-10-17 11:00:05,478 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-10-17 11:00:05,586 [5] INFO Trader.Server.TraderServer - Server Start
+2013-10-17 11:00:31,859 [10] INFO Trader.Server.SessionMonitor - ClientCount=1
+2013-10-17 11:00:56,600 [21] INFO Trader.Server.Bll.Service - 10/17/2013 11:00:56 AM-10/17/2013 11:00:56 AM
+2013-10-17 11:00:58,532 [20] INFO Trader.Server.SessionMonitor - ClientCount=0
+2013-10-17 13:40:34,803 [42] INFO Trader.Server.SessionMonitor - ClientCount=1
+2013-10-17 13:42:06,921 [11] INFO Trader.Server.Bll.Service - 10/17/2013 1:42:06 PM-10/17/2013 1:42:06 PM
+2013-10-17 13:42:09,982 [11] INFO Trader.Server.SessionMonitor - ClientCount=0
+2013-10-17 13:44:58,115 [51] INFO Trader.Server.SessionMonitor - ClientCount=1
+2013-10-17 13:45:13,385 [6] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,3,Local,  range == [5217,5221]
+<Commands FirstSequence="5217" LastSequence="5221"><Quotation Overrided="3d4fa404-c1ed-4b64-9390-e14b6d04610f	2013-10-17 13:45:11	1.0325	1.0321	1.0331	1.0318&#xA;2c34b5e8-97d8-4c61-8c42-445ab8d94a6b	2013-10-17 13:45:06	21.36	21.22	21.58	21.19&#xA;3c4b1a43-4d50-4ef3-9fad-521413badaf9	2013-10-17 13:45:11	157.3704	157.2888	157.8300	157.3100&#xA;783feff4-f65a-44e4-9e06-48d9fc534394	2013-10-17 13:45:06	21.32	21.18	21.58	21.19&#xA;c2ef11cc-e976-4a68-9d9e-8b7ddafa89f3	2013-10-17 13:45:11	1.0326	1.0313	1.0331	1.0318&#xA;66adc06c-c5fe-4428-867f-be97650eb3b4	2013-10-17 13:45:08	1279.0	1277.4	1287.1	1276.0" /></Commands>
+2013-10-17 13:48:21,809 [53] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-10-17 13:51:08,908 [36] INFO Trader.Server.SessionMonitor - ClientCount=2
+2013-10-17 13:51:17,960 [53] INFO Trader.Server.Bll.Service - 10/17/2013 1:51:17 PM-10/17/2013 1:51:17 PM
+2013-10-17 13:51:17,972 [53] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,4,Local,  range == [5482,5487]
+<Commands FirstSequence="5482" LastSequence="5487"><Quotation Overrided="2eab5b94-1a8e-4604-ac38-6f4453a860a8	2013-10-17 13:51:15	1.5985	1.5972	1.5986	1.5940&#xA;a2eb0b26-04b1-4f48-ac00-7bb175d9592c	2013-10-17 13:51:15	1.5983	1.5970	1.5986	1.5940&#xA;3c4b1a43-4d50-4ef3-9fad-521413badaf9	2013-10-17 13:51:14	157.4104	157.3388	157.8300	157.3100&#xA;af10d803-f811-45d1-a0e3-ddb5bad79ff1	2013-10-17 13:51:15	98.52	98.40	99.00	98.41&#xA;66adc06c-c5fe-4428-867f-be97650eb3b4	2013-10-17 13:51:14	1278.4	1276.8	1287.1	1276.0" /></Commands>
+2013-10-17 13:52:45,345 [32] INFO Trader.Server.Bll.Service - 10/17/2013 1:51:11 PM-10/17/2013 1:52:24 PM
+2013-10-17 13:52:48,061 [35] INFO Trader.Server.Bll.Service - 10/17/2013 1:48:48 PM-10/17/2013 1:50:00 PM
+2013-10-17 13:52:50,636 [34] INFO Trader.Server.Bll.Service - 10/17/2013 1:47:10 PM-10/17/2013 1:47:41 PM
+2013-10-17 14:09:06,437 [12] INFO Trader.Server.SessionMonitor - remove session:3
+2013-10-17 14:09:06,439 [12] INFO Trader.Server.SessionMonitor - ClientCount=1
+2013-10-17 15:46:58,945 [53] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,4,Local,  range == [11623,11623]
+<Commands FirstSequence="11623" LastSequence="11623" />
+2013-10-17 15:56:36,196 [32] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,4,Local,  range == [12191,12191]
+<Commands FirstSequence="12191" LastSequence="12191" />
+2013-10-17 16:03:53,886 [53] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,4,Local,  range == [12652,12652]
+<Commands FirstSequence="12652" LastSequence="12652" />
+2013-10-17 16:04:01,957 [53] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,4,Local,  range == [12661,12661]
+<Commands FirstSequence="12661" LastSequence="12661" />
+2013-10-17 16:05:48,460 [26] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,4,Local,  range == [12773,12773]
+<Commands FirstSequence="12773" LastSequence="12773" />
+2013-10-17 16:05:51,797 [32] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,4,Local,  range == [12778,12778]
+<Commands FirstSequence="12778" LastSequence="12778" />
+2013-10-17 16:06:01,154 [35] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,4,Local,  range == [12788,12788]
+<Commands FirstSequence="12788" LastSequence="12788" />
+2013-10-17 16:06:05,241 [34] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,4,Local,  range == [12792,12792]
+<Commands FirstSequence="12792" LastSequence="12792" />
+2013-10-17 16:12:09,861 [35] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,4,Local,  range == [13167,13167]
+<Commands FirstSequence="13167" LastSequence="13167" />
+2013-10-17 16:12:13,956 [34] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,4,Local,  range == [13172,13172]
+<Commands FirstSequence="13172" LastSequence="13172" />
+2013-10-17 16:17:31,305 [53] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,4,Local,  range == [13495,13495]
+<Commands FirstSequence="13495" LastSequence="13495" />
+2013-10-17 16:17:35,378 [26] WARN Trader.Server.Service.CommandManager - Token == 1a3447af-8bc2-4119-9719-76a26f3e8de8,Customer,TradingConsole,4,Local,  range == [13500,13500]
+<Commands FirstSequence="13500" LastSequence="13500" />
+2013-10-17 17:35:05,182 [4] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-10-18 08:04:46,065 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-10-18 08:04:46,674 [5] INFO Trader.Server.TraderServer - Server Start
+2013-10-18 08:37:18,619 [28] INFO Trader.Server.SessionMonitor - ClientCount=1
+2013-10-18 08:37:29,922 [23] INFO Trader.Server.Bll.Service - 10/18/2013 8:37:29 AM-10/18/2013 8:37:29 AM
+2013-10-18 17:38:38,303 [78] ERROR Trader.Server.Ssl.Client - End read
+System.IO.IOException: The read operation failed, see inner exception. ---> System.Net.Sockets.SocketException: An existing connection was forcibly closed by the remote host
+   at System.Net.Sockets.Socket.EndReceive(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.TraderNetworkStream.EndRead(IAsyncResult asyncResult) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\TraderNetworkStream.cs:line 70
+   at System.Net.FixedSizeReader.ReadCallback(IAsyncResult transportResult)
+   --- End of inner exception stack trace ---
+   at System.Net.Security._SslStream.EndRead(IAsyncResult asyncResult)
+   at Trader.Server.Ssl.Client.<>c__DisplayClass2.<EndRead>b__1() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\Client.cs:line 104
+2013-10-21 08:04:00,838 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-10-21 08:04:00,932 [5] INFO Trader.Server.TraderServer - Server Start
+2013-10-21 08:04:01,306 [5] ERROR Trader.Server.TraderServer - System.Net.Sockets.SocketException (0x80004005): Only one usage of each socket address (protocol/network address/port) is normally permitted
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at System.Net.Sockets.TcpListener.Start(Int32 backlog)
+   at Trader.Server.Ssl.SecureTcpServer.StartListening() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Ssl\SecureTcpServer.cs:line 92
+   at Trader.Server.TraderServer.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\TraderServer.cs:line 39
+2013-10-22 08:04:52,757 [5] ERROR Trader.Server.Bll.Application - System.Net.WebException: The operation has timed out
+   at System.Web.Services.Protocols.WebClientProtocol.GetWebResponse(WebRequest request)
+   at System.Web.Services.Protocols.HttpWebClientProtocol.GetWebResponse(WebRequest request)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 98
+2013-10-22 08:05:37,901 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-10-22 08:05:37,910 [5] INFO Trader.Server.TraderServer - Server Start
+2013-10-22 08:05:38,160 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> Object reference not set to an instance of an object.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 98
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 107
+   at Trader.Server.Bll.Application..ctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 31
+   at Trader.Server.Bll.Application..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 18
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\TraderServer.cs:line 41
+2013-10-23 08:04:47,465 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-10-23 08:04:47,574 [5] INFO Trader.Server.TraderServer - Server Start
+2013-10-24 08:02:43,826 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-10-24 08:02:43,935 [5] INFO Trader.Server.TraderServer - Server Start
+2013-10-25 08:03:32,733 [5] ERROR Trader.Server.Bll.TradingConsoleServer - System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server) ---> System.ComponentModel.Win32Exception (0x80004005): The network path was not found
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, Boolean encrypt, Boolean trustServerCert, Boolean integratedSecurity, Boolean withFailover)
+   at System.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at System.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at System.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Trader.Server.Bll.TradingConsoleServer..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\TradingConsoleServer.cs:line 43
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+2013-10-25 08:03:36,237 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-10-25 08:03:36,253 [5] INFO Trader.Server.TraderServer - Server Start
+2013-10-28 08:03:58,752 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-10-28 08:03:59,391 [5] INFO Trader.Server.TraderServer - Server Start
+2013-10-29 08:04:00,212 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-10-29 08:04:01,647 [5] INFO Trader.Server.TraderServer - Server Start
+2013-10-30 08:03:58,399 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-10-30 08:03:59,210 [5] INFO Trader.Server.TraderServer - Server Start
+2013-10-31 08:01:51,776 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-10-31 08:01:51,870 [5] INFO Trader.Server.TraderServer - Server Start
+2013-11-04 07:54:20,063 [5] ERROR Trader.Server.Bll.Application - System.Net.WebException: The operation has timed out
+   at System.Web.Services.Protocols.WebClientProtocol.GetWebResponse(WebRequest request)
+   at System.Web.Services.Protocols.HttpWebClientProtocol.GetWebResponse(WebRequest request)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 98
+2013-11-04 07:54:39,954 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-11-04 07:54:39,954 [5] INFO Trader.Server.TraderServer - Server Start
+2013-11-04 07:54:40,094 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> Object reference not set to an instance of an object.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 98
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 107
+   at Trader.Server.Bll.Application..ctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 31
+   at Trader.Server.Bll.Application..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 18
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\TraderServer.cs:line 41
+2013-11-05 07:53:18,369 [5] ERROR Trader.Server.Bll.TradingConsoleServer - System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server) ---> System.ComponentModel.Win32Exception (0x80004005): The network path was not found
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, Boolean encrypt, Boolean trustServerCert, Boolean integratedSecurity, Boolean withFailover)
+   at System.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at System.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at System.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Trader.Server.Bll.TradingConsoleServer..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\TradingConsoleServer.cs:line 43
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+2013-11-05 07:53:19,117 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-11-05 07:53:19,133 [5] INFO Trader.Server.TraderServer - Server Start
+2013-11-06 08:02:40,642 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-11-06 08:02:40,704 [5] INFO Trader.Server.TraderServer - Server Start
+2013-11-07 07:59:54,853 [5] ERROR Trader.Server.Bll.TradingConsoleServer - System.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server) ---> System.ComponentModel.Win32Exception (0x80004005): The network path was not found
+   at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at System.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, Boolean encrypt, Boolean trustServerCert, Boolean integratedSecurity, Boolean withFailover)
+   at System.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, Boolean withFailover)
+   at System.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at System.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Trader.Server.Bll.TradingConsoleServer..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\TradingConsoleServer.cs:line 43
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+2013-11-07 07:59:56,725 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-11-07 07:59:56,725 [5] INFO Trader.Server.TraderServer - Server Start
+2013-11-08 07:59:43,808 [5] ERROR Trader.Server.Bll.Application - System.Net.WebException: The operation has timed out
+   at System.Web.Services.Protocols.WebClientProtocol.GetWebResponse(WebRequest request)
+   at System.Web.Services.Protocols.HttpWebClientProtocol.GetWebResponse(WebRequest request)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 98
+2013-11-08 07:59:58,787 [5] INFO Trader.Server.TraderServer - D:\Work\SslServer.cer certificate path
+2013-11-08 07:59:58,797 [5] INFO Trader.Server.TraderServer - Server Start
+2013-11-08 07:59:58,967 [5] ERROR Trader.Server.TraderServer - System.TypeInitializationException: The type initializer for 'Trader.Server.Bll.Application' threw an exception. ---> System.Web.Services.Protocols.SoapException: Server was unable to process request. ---> Object reference not set to an instance of an object.
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.ReadResponse(SoapClientMessage message, WebResponse response, Stream responseStream, Boolean asyncCall)
+   at System.Web.Services.Protocols.SoapHttpClientProtocol.Invoke(String methodName, Object[] parameters)
+   at iExchange.Common.Client.StateServerService.Register(Token token, String url)
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 98
+   at Trader.Server.Bll.Application.StateServerReadyCheck(StateServerService stateServer) in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 107
+   at Trader.Server.Bll.Application..ctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 31
+   at Trader.Server.Bll.Application..cctor() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\Bll\Application.cs:line 18
+   --- End of inner exception stack trace ---
+   at Trader.Server.TraderServer.Start() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\AsynchronousSslStream\TraderServer.cs:line 41

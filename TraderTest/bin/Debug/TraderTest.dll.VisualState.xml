@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1006]D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderTest\bin\Debug\TraderTest.dll</TopNode>
+  <SelectedNode>[0-1001]TraderTest.TypeExtentsionTest.StringExtensionTest.ToJoinStringTest</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1006]D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderTest\bin\Debug\TraderTest.dll" Expanded="true" />
+    <Node UniqueName="[0-1007]TraderTest" Expanded="true" />
+    <Node UniqueName="[0-1009]TraderTest.Quotation4Bit" Expanded="true" />
+    <Node UniqueName="[0-1004]TraderTest.Quotation4Bit.QuotationFilterSignMappingTest" Expanded="true" />
+    <Node UniqueName="[0-1008]TraderTest.TypeExtentsionTest" Expanded="true" />
+    <Node UniqueName="[0-1000]TraderTest.TypeExtentsionTest.StringExtensionTest" Expanded="true" />
+  </Nodes>
+</VisualState>
