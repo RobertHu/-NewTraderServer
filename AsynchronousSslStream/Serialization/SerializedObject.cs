@@ -15,6 +15,14 @@ namespace Trader.Server.Serialization
     {
         private SerializedObject() { }
 
+        public PacketContent Content { get; private set; }
+        public ClientInfo ClientInfo { get; private set; }
+
+        public void UpdateContent(PacketContent content)
+        {
+            this.Content = content;
+        }
+
         public static SerializedObject CreateForKeepAlive(Session session, bool isKeepAlive, byte[] keepAlivePacket)
         {
             SerializedObject target = new SerializedObject()
@@ -53,10 +61,6 @@ namespace Trader.Server.Serialization
             };
             return target;
         }
-
-
-        public PacketContent Content { get; set; }
-        public ClientInfo ClientInfo { get; set; }
     }
 
     public enum ContentType
@@ -75,20 +79,35 @@ namespace Trader.Server.Serialization
             this.Session = session;
         }
         public string ClientInvokeId { get; private set; }
-        public Session ClientId { get; set; }
-        public Session Session { get; set; }
-        public Client Sender { get; set; }
-        public string RemoteIp { get; set; } 
+        public Session ClientId { get; private set; }
+        public Session Session { get; private set; }
+        public Client Sender { get;private set; }
+        public string RemoteIp { get; private set; }
+
+        public void Initialize(Session clientId,Client sender,string remoteIp)
+        {
+            this.ClientId = clientId;
+            this.Sender = sender;
+            this.RemoteIp = remoteIp;
+        }
+
+        public void UpdateSession(Session session)
+        {
+            this.Session = session;
+        }
     }
 
-    public class KeepAlive
+    public struct KeepAlive
     {
-        public KeepAlive(byte[] content)
+        private bool _IsSuccess;
+        private byte[] _Packet;
+        public KeepAlive(byte[] content,bool isSuccess)
         {
-            Content=content;
+            _Packet=content;
+            _IsSuccess = isSuccess;
         }
-        public bool IsSuccess { get;  set; }
-        public byte[] Content { get; private set; }
+        public bool IsSuccess { get { return _IsSuccess; } }
+        public byte[] Packet { get { return _Packet; } }
     }
 
     public class PacketContent
@@ -111,9 +130,9 @@ namespace Trader.Server.Serialization
             this.ContentType = ContentType.Json;
         }
 
-        public PacketContent(byte[] keepAlivePacket)
+        public PacketContent(byte[] keepAlivePacket,bool isSuccess=false)
         {
-            this.KeepAlive = new KeepAlive(keepAlivePacket);
+            this.KeepAlive = new KeepAlive(keepAlivePacket,isSuccess);
             this.ContentType = ContentType.KeepAlivePacket;
         }
 
@@ -121,6 +140,6 @@ namespace Trader.Server.Serialization
         public UnmanagedMemory UnmanageMem { get; private set; }
         public JObject JsonContent { get; private set; }
         public KeepAlive KeepAlive { get; private set; }
-        public ContentType ContentType { get; set; }
+        public ContentType ContentType { get;private  set; }
     }
 }

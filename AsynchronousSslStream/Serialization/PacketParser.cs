@@ -46,20 +46,12 @@ namespace Trader.Server.Serialization
             string sessionStr = PacketConstants.SessionEncoding.GetString(packet, PacketConstants.HeadLength, sessionLength);
             Session session = SessionMapping.Get(sessionStr);
             string content = PacketConstants.ContentEncoding.GetString(contentBytes);
-            bool isContentInXmlFormat = (packet[PacketConstants.SettingIndex] & PacketFirstHeadByteValue.IsXmlFormatMask) == PacketFirstHeadByteValue.IsXmlFormatMask;
-            if (isContentInXmlFormat)
-            {
-                return ParseXmlPacket(session, content);
-            }
             bool isContentInJsonFormat = (packet[PacketConstants.SettingIndex] & PacketFirstHeadByteValue.IsJsonFormatMask) == PacketFirstHeadByteValue.IsJsonFormatMask;
             if (isContentInJsonFormat)
             {
-                JObject jsonContent = JObject.Parse(content);
-                var clientInvokeIdProperty = jsonContent[RequestConstants.InvokeIdNodeName];
-                string clientInvokeId = clientInvokeIdProperty == null ? string.Empty : clientInvokeIdProperty.ToString();
-                return null;
+                return ParseJsonPacket(session, content);
             }
-            throw new InvalidOperationException("the packet type can't be recognized");
+            return ParseXmlPacket(session, content);
         }
 
         private static SerializedObject ParseXmlPacket(Session session, string content)
@@ -74,6 +66,14 @@ namespace Trader.Server.Serialization
                 string clientInvokeId = clientInvokeNode == null ? string.Empty : clientInvokeNode.Value;
                 return SerializedObject.CreateForXml(session, clientInvokeId, contentNode);
             }
+        }
+
+        private static SerializedObject ParseJsonPacket(Session session, string content)
+        {
+            JObject jsonContent = JObject.Parse(content);
+            var clientInvokeIdProperty = jsonContent[RequestConstants.InvokeIdNodeName];
+            string clientInvokeId = clientInvokeIdProperty == null ? string.Empty : clientInvokeIdProperty.ToString();
+            return SerializedObject.CreateForJson(session, clientInvokeId, jsonContent);
         }
 
         private static SerializedObject ParseForKeepAlive(byte[] packet)

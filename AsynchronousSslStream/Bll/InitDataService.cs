@@ -44,7 +44,7 @@ namespace Trader.Server.Bll
         private static void InitAndSendInitDataInPointer(SerializedObject request,DataSet initData)
         {
             DataSet ds = Init(request.ClientInfo.Session, initData);
-            request.Content =new PacketContent(ds.ToPointer());
+            request.UpdateContent(new PacketContent(ds.ToPointer()));
             SendCenter.Default.Send(request);
         }
 
@@ -52,7 +52,7 @@ namespace Trader.Server.Bll
         private static void SendErrorResult(SerializedObject request,Exception ex)
         {
             _Logger.Error(ex);
-            request.Content = XmlResultHelper.ErrorResult;
+            request.UpdateContent( XmlResultHelper.ErrorResult);
             SendCenter.Default.Send(request);
         }
 

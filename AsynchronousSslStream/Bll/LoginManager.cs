@@ -37,7 +37,8 @@ namespace Trader.Server.Bll
 
         public void Login(LoginParameter parameter)
         {
-            _LoginProvider.AsyncLogin(parameter);
+            AsyncEnumerator ae = new AsyncEnumerator();
+            ae.BeginExecute(_LoginProvider.AsyncLogin(parameter, ae), ae.EndExecute);
         }
 
         private void OnStateLoadingComplete(AppType appType)
@@ -135,21 +136,14 @@ namespace Trader.Server.Bll
         }
 
 
-
-
-
-
         private void SendErrorResult(SerializedObject request,int appType)
         {
             if (appType != (int)AppType.Mobile)
             {
-                request.Content = XmlResultHelper.ErrorResult;
+                request.UpdateContent(XmlResultHelper.ErrorResult);
                 SendCenter.Default.Send(request);
             }
         }
-
-
-      
 
 
         private bool SetLoginInfo(LoginInfo loginInfo)

@@ -41,7 +41,6 @@ namespace Trader.Server.CppTrader.DataMappingAbstract
         public string Password { get; set; }
         public string Version { get; set; }
         public AppType AppType { get; set; }
-        public AsyncEnumerator AsyncEnumerator { get; set; }
     }
 
     public delegate void LoginCompletedHandler(ILoginProvider sender,LoginInfo info);
@@ -49,6 +48,6 @@ namespace Trader.Server.CppTrader.DataMappingAbstract
     public interface ILoginProvider
     {
         event LoginCompletedHandler Completed;
-        IEnumerator<int> AsyncLogin(LoginParameter parameter);
+        IEnumerator<int> AsyncLogin(LoginParameter parameter,AsyncEnumerator ae);
     }
 }

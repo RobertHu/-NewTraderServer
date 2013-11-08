@@ -11,6 +11,10 @@ using Trader.Server.TypeExtension;
 using Trader.Server.SessionNamespace;
 using Trader.Common;
 using Mobile = iExchange3Promotion.Mobile;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Trader.Server.CppTrader.Communication.Model;
+using Trader.Server.Core;
 namespace Trader.Server.Bll.Common
 {
     public class LoginRequest
@@ -32,7 +36,7 @@ namespace Trader.Server.Bll.Common
                 Password=argList[1],
                 Version=argList[2],
                 AppType=(AppType)argList[3].ToInt(),
-                AsyncEnumerator=new Wintellect.Threading.AsyncProgModel.AsyncEnumerator()
+                Request=_Request
             };
             LoginManager loginManager = new LoginManager();
             loginManager.StateLoadingCompleted += OnLoginStateLoadingCompleteCallback;
@@ -45,18 +49,18 @@ namespace Trader.Server.Bll.Common
             if (AppType.Mobile == appType)
             {
                 Token token = SessionManager.Default.GetToken(_Request.ClientInfo.Session);
-                _Request.Content = new PacketContent( Mobile.Manager.Login(token));
+                _Request.UpdateContent(new PacketContent( Mobile.Manager.Login(token)));
                 SendCenter.Default.Send(_Request);
             }
             else if (appType == AppType.CppTrader)
             {
-
+                LoginResult result = new LoginResult { SessionId = _Request.ClientInfo.Session.ToString(), ServerDateTime=DateTime.Now.ToStandrandDateTimeStr() };
+                JObject content = (JsonServiceFactory.CreateResponseProvider()).Generate(result, _Request.ClientInfo.ClientInvokeId);
+                _Request.UpdateContent(new PacketContent(content));
+                SendCenter.Default.Send(_Request);
             }
-
-            //test:
             if (System.Configuration.ConfigurationManager.AppSettings["MobileDebug"] == "true")
             {
-                //Dictionary<Guid, Guid> quotePolicyIds = Mobile.Manager.UpdateInstrumentSetting(token, new string[] { });
             }
         }
     }

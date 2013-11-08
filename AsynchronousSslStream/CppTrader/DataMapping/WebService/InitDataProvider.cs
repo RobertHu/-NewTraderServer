@@ -24,7 +24,7 @@ namespace Trader.Server.CppTrader.DataMapping.WebService
             try
             {
                 int commandSequence;
-                DataSet initData = Application.Default.StateServer.EndGetInitData(null, out commandSequence);
+                DataSet initData = Application.Default.StateServer.EndGetInitData(ae.DequeueAsyncResult(), out commandSequence);
                 var handler = Completed;
                 if (handler != null)
                     handler(this,initData);
@@ -32,6 +32,7 @@ namespace Trader.Server.CppTrader.DataMapping.WebService
             catch (Exception ex)
             {
                 _Logger.Error("async getInitData", ex);
+                yield break;
             }
         }
     

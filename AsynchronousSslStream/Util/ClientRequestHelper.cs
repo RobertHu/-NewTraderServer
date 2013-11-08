@@ -41,7 +41,7 @@ namespace Trader.Server.Util
                 Application.Default.SessionMonitor.Update(request.ClientInfo.Session);
                 if (content != null)
                 {
-                    request.Content = content;
+                    request.UpdateContent(content);
                     SendCenter.Default.Send(request);
                 }
             }
@@ -49,7 +49,8 @@ namespace Trader.Server.Util
 
         private static void ProcessForKeepAlive(SerializedObject request)
         {
-            request.Content.KeepAlive.IsSuccess = Application.Default.SessionMonitor.Exist(request.ClientInfo.Session);
+            bool isExist=Application.Default.SessionMonitor.Exist(request.ClientInfo.Session);
+            request.UpdateContent(new PacketContent(request.Content.KeepAlive.Packet, isExist));
             SendCenter.Default.Send(request);
         }
 
@@ -101,9 +102,7 @@ namespace Trader.Server.Util
         private static void WhenSessionNotExistRecoveSessionToCurrentSession(SerializedObject request)
         {
             if (request.ClientInfo.ClientId != Session.InvalidValue)
-            {
-                request.ClientInfo.Session = request.ClientInfo.ClientId;
-            }
+                request.ClientInfo.UpdateSession(request.ClientInfo.ClientId);
         }
     }
 }

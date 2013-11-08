@@ -8,6 +8,7 @@ using iExchange.Common;
 using Trader.Server.TypeExtension;
 using Trader.Server.Bll;
 using Trader.Server.SessionNamespace;
+using Wintellect.Threading.AsyncProgModel;
 
 namespace Trader.Server.CppTrader.DataMapping.WebService
 {
@@ -16,7 +17,7 @@ namespace Trader.Server.CppTrader.DataMapping.WebService
         private readonly ILog _Logger = LogManager.GetLogger(typeof(LoginProvider));
         public event LoginCompletedHandler Completed;
 
-        public IEnumerator<int> AsyncLogin(LoginParameter parameter)
+        public IEnumerator<int> AsyncLogin(LoginParameter parameter,AsyncEnumerator ae)
         {
             string connectionString = SettingManager.Default.ConnectionString;
             LoginInfo loginInfo = new LoginInfo() { Parameter=parameter};
@@ -33,11 +34,11 @@ namespace Trader.Server.CppTrader.DataMapping.WebService
                 yield break;
             }
 
-            Application.Default.ParticipantService.BeginLogin(parameter.LoginId, parameter.Password,parameter.AsyncEnumerator.End(), null);
+            Application.Default.ParticipantService.BeginLogin(parameter.LoginId, parameter.Password,ae.End(), null);
             yield return 1;
             try
             {
-                loginInfo.UserID = Application.Default.ParticipantService.EndLogin(parameter.AsyncEnumerator.DequeueAsyncResult());
+                loginInfo.UserID = Application.Default.ParticipantService.EndLogin(ae.DequeueAsyncResult());
             }
             catch (Exception ex)
             {
@@ -56,13 +57,13 @@ namespace Trader.Server.CppTrader.DataMapping.WebService
 
             Guid programID = new Guid(SettingManager.Default.GetJavaTraderSettings("TradingConsole"));
             Guid permissionID = new Guid(SettingManager.Default.GetJavaTraderSettings("Run"));
-            Application.Default.SecurityService.BeginCheckPermission(loginInfo.UserID, programID, permissionID, "", "", loginInfo.UserID, parameter.AsyncEnumerator.End(), null);
+            Application.Default.SecurityService.BeginCheckPermission(loginInfo.UserID, programID, permissionID, "", "", loginInfo.UserID, ae.End(), null);
             yield return 1;
             bool isAuthrized = false;
             try
             {
                 string message;
-                isAuthrized = Application.Default.SecurityService.EndCheckPermission(parameter.AsyncEnumerator.DequeueAsyncResult(), out message);
+                isAuthrized = Application.Default.SecurityService.EndCheckPermission(ae.DequeueAsyncResult(), out message);
             }
             catch (Exception ex)
             {
@@ -83,12 +84,12 @@ namespace Trader.Server.CppTrader.DataMapping.WebService
             token.UserID = loginInfo.UserID;
             token.SessionID = parameter.Request.ClientInfo.Session.ToString();
             SessionManager.Default.AddToken(parameter.Request.ClientInfo.Session, token);
-            Application.Default.StateServer.BeginLogin(token, parameter.AsyncEnumerator.End(), null);
+            Application.Default.StateServer.BeginLogin(token, ae.End(), null);
             yield return 1;
             bool isStateServerLogined = false;
             try
             {
-                isStateServerLogined = Application.Default.StateServer.EndLogin(parameter.AsyncEnumerator.DequeueAsyncResult());
+                isStateServerLogined = Application.Default.StateServer.EndLogin(ae.DequeueAsyncResult());
             }
             catch (Exception ex)
             {

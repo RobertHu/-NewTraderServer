@@ -19,9 +19,6 @@ namespace Trader.Server.Util
             }
         }
 
-
-
-
         public static XElement CreateRootElement()
         {
             return new XElement(ResponseConstants.RootNodeName);
@@ -43,12 +40,10 @@ namespace Trader.Server.Util
 
         public static XElement NewResult(string nodeName, string xml)
         {
-
             var root = CreateRootElement();
             root.Add(new XElement(nodeName, xml));
             return root;
         }
-
 
         public static XElement NewErrorResult(string xml = "")
         {

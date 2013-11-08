@@ -23,25 +23,17 @@ namespace Trader.Server.Serialization
                 return  BuildForPointer(response.Content.UnmanageMem, response.ClientInfo.ClientInvokeId);
             }
 
-            if (contentType == ContentType.Xml)
-            {
-               return BuildForXmlFormat(response);
-            }
-
-            if (contentType == ContentType.Json)
-            {
-                return BuildForJsonFormat(response);
-            }
-            throw new NotSupportedException();
+            return BuildForGeneralFormat(response);
         }
 
-        private static UnmanagedMemory BuildForXmlFormat(SerializedObject response)
+
+        private static UnmanagedMemory BuildForGeneralFormat(SerializedObject response)
         {
-            if (!string.IsNullOrEmpty(response.ClientInfo.ClientInvokeId))
+             if (!string.IsNullOrEmpty(response.ClientInfo.ClientInvokeId))
             {
-                AppendClientInvokeIdToContentNode(response.Content.XmlContent, response.ClientInfo.ClientInvokeId);
+                AppendClientInvokeIdToContentNode(response.Content, response.ClientInfo.ClientInvokeId);
             }
-            byte[] contentBytes = GetContentBytes(response.Content.XmlContent.ToString());
+            byte[] contentBytes = GetContentBytes(response.Content);
             byte[] sessionBytes = GetSessionBytes(response.ClientInfo.Session.ToString());
             byte sessionLengthByte = (byte)sessionBytes.Length;
             byte[] contentLengthBytes = contentBytes.Length.ToCustomerBytes();
@@ -54,18 +46,13 @@ namespace Trader.Server.Serialization
             return packet;
         }
 
-        private static UnmanagedMemory BuildForJsonFormat(SerializedObject response)
-        {
-            throw new NotImplementedException();
-        }
-
 
         private static UnmanagedMemory BuildForKeepAlive(SerializedObject response)
         {
             Debug.Assert(response.Content.ContentType == ContentType.KeepAlivePacket, "content type should be keepalive");
             KeepAlive keepAlive = response.Content.KeepAlive;
-            keepAlive.Content[PacketConstants.SettingIndex] = keepAlive.IsSuccess ? PacketFirstHeadByteValue.IsKeepAliveAndSuccessValue : PacketFirstHeadByteValue.IsKeepAliveAndFailedValue;
-            UnmanagedMemory packet = new UnmanagedMemory(keepAlive.Content);
+            keepAlive.Packet[PacketConstants.SettingIndex] = keepAlive.IsSuccess ? PacketFirstHeadByteValue.IsKeepAliveAndSuccessValue : PacketFirstHeadByteValue.IsKeepAliveAndFailedValue;
+            UnmanagedMemory packet = new UnmanagedMemory(keepAlive.Packet);
             return packet;
         }
 
@@ -124,9 +111,20 @@ namespace Trader.Server.Serialization
         }
 
 
-        private static void AppendClientInvokeIdToContentNode(XElement contentNode,string invokeID)
+        private static void AppendClientInvokeIdToContentNode(PacketContent contentNode,string invokeID)
         {
-            contentNode.Add(new XElement(RequestConstants.InvokeIdNodeName, invokeID));
+            if (contentNode.ContentType == ContentType.Xml)
+            {
+                contentNode.XmlContent.Add(new XElement(RequestConstants.InvokeIdNodeName, invokeID));
+            }
+            else if (contentNode.ContentType == ContentType.Json)
+            {
+                contentNode.JsonContent.Add(RequestConstants.InvokeIdNodeName, invokeID);
+            }
+            else
+            {
+                throw new NotSupportedException(string.Format("such contentType current not define {0}", contentNode.ContentType));
+            }
         }
 
 
@@ -162,9 +160,18 @@ namespace Trader.Server.Serialization
             return bytes;
         }
 
-        private static byte[] GetContentBytes(string xml)
+        private static byte[] GetContentBytes(PacketContent content)
         {
-            byte[] bytes = PacketConstants.ContentEncoding.GetBytes(xml);
+            Debug.Assert(content.ContentType == ContentType.Xml || content.ContentType == ContentType.Json);
+            byte[] bytes;
+            if (content.ContentType == ContentType.Xml)
+            {
+                bytes = PacketConstants.ContentEncoding.GetBytes(content.XmlContent.ToString());
+            }
+            else
+            {
+                bytes = PacketConstants.ContentEncoding.GetBytes(content.JsonContent.ToString());
+            }
             return bytes;
         }
       

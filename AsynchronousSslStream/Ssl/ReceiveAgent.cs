@@ -44,16 +44,11 @@ namespace Trader.Server.Ssl
             SerializedObject request = PacketParser.Parse(_Current.Data);
             if (request != null)
             {
+                var sender = Application.Default.AgentController.GetSender(_Current.ClientId);
+                var remoteIp = _Current.RemoteIp;
+                request.ClientInfo.Initialize(_Current.ClientId, sender, remoteIp);
                 if (request.ClientInfo.Session == Session.InvalidValue)
-                {
-                    request.ClientInfo.Session = _Current.ClientId;
-                }
-                else
-                {
-                    request.ClientInfo.ClientId = _Current.ClientId;
-                }
-                request.ClientInfo.Sender = Application.Default.AgentController.GetSender(_Current.ClientId);
-                request.ClientInfo.RemoteIp = _Current.RemoteIp;
+                    request.ClientInfo.UpdateSession(_Current.ClientId);
                 ClientRequestHelper.Process(request);
             }
             ProcessData();
