@@ -1,17 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderTest\bin\Debug\TraderTest.dll" total="1" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2013-11-05" time="16:25:25">
+<test-results name="D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderTest\bin\Debug\TraderTest.dll" total="1" errors="0" failures="1" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2013-11-08" time="10:20:02">
   <environment nunit-version="2.6.2.12296" clr-version="2.0.50727.4984" os-version="Microsoft Windows NT 6.1.7600.0" platform="Win32NT" cwd="D:\Program Files (x86)\NUnit-2.6.2\bin" machine-name="WS0210" user="Robert" user-domain="OMNICARE" />
   <culture-info current-culture="en-US" current-uiculture="en-US" />
-  <test-suite type="Assembly" name="D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderTest\bin\Debug\TraderTest.dll" executed="True" result="Success" success="True" time="0.011" asserts="0">
+  <test-suite type="Assembly" name="D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderTest\bin\Debug\TraderTest.dll" executed="True" result="Failure" success="False" time="1.997" asserts="0">
     <results>
-      <test-suite type="Namespace" name="TraderTest" executed="True" result="Success" success="True" time="0.011" asserts="0">
+      <test-suite type="Namespace" name="TraderTest" executed="True" result="Failure" success="False" time="1.967" asserts="0">
         <results>
-          <test-suite type="Namespace" name="TypeExtentsionTest" executed="True" result="Success" success="True" time="0.010" asserts="0">
+          <test-suite type="Namespace" name="Json" executed="True" result="Failure" success="False" time="1.966" asserts="0">
             <results>
-              <test-suite type="TestFixture" name="StringExtensionTest" executed="True" result="Success" success="True" time="0.009" asserts="0">
+              <test-suite type="TestFixture" name="GenerateFormatTest" executed="True" result="Failure" success="False" time="1.964" asserts="0">
                 <results>
-                  <test-case name="TraderTest.TypeExtentsionTest.StringExtensionTest.ToJoinStringTest" executed="True" result="Success" success="True" time="0.004" asserts="1" />
+                  <test-case name="TraderTest.Json.GenerateFormatTest.GenerateTest" executed="True" result="Failure" success="False" time="1.947" asserts="1">
+                    <failure>
+                      <message><![CDATA[  Expected string length 0 but was 78. Strings differ at index 0.
+  Expected: <string.Empty>
+  But was:  "{"Content":"{\\"Name\\":\\"Bill\\",\\"ServerDateTime\\":\\"11/8/2013..."
+  -----------^
+]]></message>
+                      <stack-trace><![CDATA[at TraderTest.Json.GenerateFormatTest.GenerateTest() in D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderTest\Json\GenerateFormatTest.cs:line 31
+]]></stack-trace>
+                    </failure>
+                  </test-case>
                 </results>
               </test-suite>
             </results>

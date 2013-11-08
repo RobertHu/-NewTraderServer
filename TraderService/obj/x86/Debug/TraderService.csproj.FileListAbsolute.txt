@@ -29,3 +29,4 @@ D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\o
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\obj\x86\Debug\TraderService.csproj.GenerateResource.Cache
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\Config\Log4Net.config
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\Config\Service.config
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderService\bin\Debug\Newtonsoft.Json.dll

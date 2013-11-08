@@ -193,7 +193,13 @@
     <Compile Include="Core\IClientsProcessor.cs" />
     <Compile Include="Core\ICommandTransfer.cs" />
     <Compile Include="Core\IDisconnectedClientProccessor.cs" />
+    <Compile Include="Core\JsonServiceFactory.cs" />
     <Compile Include="CppTrader\ApplicationLayer\InitDataService.cs" />
+    <Compile Include="CppTrader\CommunicationAbstract\IResponseProvider.cs" />
+    <Compile Include="CppTrader\Communication\Model\LoginResult.cs" />
+    <Compile Include="CppTrader\Communication\ResponseConstants.cs" />
+    <Compile Include="CppTrader\Communication\Response.cs" />
+    <Compile Include="CppTrader\Communication\ResponseProvider.cs" />
     <Compile Include="CppTrader\DataMappingAbstract\IInitDataProvider.cs" />
     <Compile Include="CppTrader\DataMappingAbstract\ILoginProvider.cs" />
     <Compile Include="CppTrader\DataMapping\Account.cs" />
@@ -311,6 +317,7 @@
     <Compile Include="Bll\StatementService.cs" />
     <Compile Include="TypeExtension\BoolExtension.cs" />
     <Compile Include="TypeExtension\DataSetExtension.cs" />
+    <Compile Include="TypeExtension\DateTimeExtension.cs" />
     <Compile Include="TypeExtension\GuidExtension.cs" />
     <Compile Include="TypeExtension\StringExtension.cs" />
     <Compile Include="TypeExtension\XElementExtension.cs" />
@@ -1285,8 +1292,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CppTrader\ApplicationLayerAbstract\" />
-    <Folder Include="CppTrader\CommunicationAbstract\" />
-    <Folder Include="CppTrader\Communication\" />
     <Folder Include="CppTrader\Domain\" />
     <Folder Include="Setting\MHL\CHS\CallMargin\" />
     <Folder Include="Setting\MHL\CHT\CallMargin\" />

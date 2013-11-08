@@ -23,3 +23,4 @@ D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderTest\bin\
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderTest\obj\Debug\TraderUnitTest.csprojResolveAssemblyReference.cache
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderTest\obj\Debug\TraderTest.dll
 D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderTest\obj\Debug\TraderTest.pdb
+D:\Teams\iExchangeCollection\iExchange3 Team\iExchange3Promotion\TraderTest\bin\Debug\Newtonsoft.Json.dll
