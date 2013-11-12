@@ -14,7 +14,7 @@ namespace Trader.Server
     {
         public static readonly SendCenter Default = new SendCenter();
         private readonly ILog _Logger = LogManager.GetLogger(typeof(SendCenter));
-        private readonly ConcurrentQueue<SerializedObject> _Queue = new ConcurrentQueue<SerializedObject>();
+        private readonly ConcurrentQueue<SerializedInfo> _Queue = new ConcurrentQueue<SerializedInfo>();
         private readonly AutoResetEvent _Event = new AutoResetEvent(false);
         private readonly AutoResetEvent _StopEvent = new AutoResetEvent(false);
         private readonly AutoResetEvent[] _Events;
@@ -46,7 +46,7 @@ namespace Trader.Server
             _StopEvent.Set();
         }
 
-        public void Send(SerializedObject item)
+        public void Send(SerializedInfo item)
         {
             if (item == null) return;
             _Queue.Enqueue(item);
@@ -62,7 +62,7 @@ namespace Trader.Server
                     break;
                 }
                 WaitHandle.WaitAny(_Events);
-                SerializedObject workItem = null;
+                SerializedInfo workItem = null;
                 while (_Queue.TryDequeue(out workItem))
                 {
                     UnmanagedMemory packet = SerializeManager.Default.Serialize(workItem);
