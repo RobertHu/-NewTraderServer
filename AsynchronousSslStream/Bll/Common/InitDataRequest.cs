@@ -8,14 +8,15 @@ using System.Xml.Linq;
 using Wintellect.Threading.AsyncProgModel;
 using Mobile = iExchange3Promotion.Mobile;
 using Trader.Server.Util;
+using Trader.Server.Core.Request;
 
 namespace Trader.Server.Bll.Common
 {
     public class InitDataRequest
     {
-        private SerializedObject _Request;
+        private SerializedInfo _Request;
         private Token _Token;
-        public InitDataRequest(SerializedObject request, Token token)
+        public InitDataRequest(SerializedInfo request, Token token)
         {
             _Request = request;
             _Token = token;
@@ -46,7 +47,7 @@ namespace Trader.Server.Bll.Common
         private XElement ExecuteMobileRequest()
         {
             System.Data.DataSet initData = Mobile.Manager.GetInitData(_Token);
-            List<string> argList = XmlRequestCommandHelper.GetArguments(_Request.Content);
+            List<string> argList =ArgumentsParser.Parse(_Request.Content);
             Guid selectedAccountId = (argList != null && argList.Count > 0 ? new Guid(argList[0]) : Guid.Empty);
             InitDataService.Init(_Request.ClientInfo.Session, initData);
             var result = Mobile.Manager.Initialize(_Token, initData, selectedAccountId);

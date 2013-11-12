@@ -21,6 +21,7 @@ using Trader.Server.CppTrader.DataMappingAbstract;
 using Trader.Server.CppTrader.DataMapping.WebService;
 using JavaLoginService = Trader.Server.Bll.JavaTrader.LoginService;
 using Trader.Server.Bll.Common;
+using Trader.Server.Core.Response;
 namespace Trader.Server.Bll
 {
 
@@ -53,6 +54,7 @@ namespace Trader.Server.Bll
 
         private void AsyncLoginCompletedCallback(ILoginProvider provider,LoginInfo loginInfo)
         {
+            provider.Completed -= AsyncLoginCompletedCallback;
             bool success = false;
             switch (loginInfo.Status)
             {
@@ -84,20 +86,22 @@ namespace Trader.Server.Bll
                 case LoginStatus.StateServerNotLogined:
                     break;
                 case LoginStatus.Success:
-                    success= ProcessPostAsyncLoginSuccess(loginInfo);
+                    success = true;
                     break;
             }
             if (!success)
             {
                 LoginRetryTimeHelper.IncreaseFailedCount(loginInfo.Parameter.LoginId, ParticipantType.Customer, SettingManager.Default.ConnectionString);
+                OnError(loginInfo.Parameter.Request, loginInfo.Parameter.AppType);
             }
             else
             {
                 LoginRetryTimeHelper.ClearFailedCount(loginInfo.UserID, ParticipantType.Customer, SettingManager.Default.ConnectionString);
+                ProcessPostAsyncLoginSuccess(loginInfo);
             }
         }
 
-        private bool ProcessPostAsyncLoginSuccess(LoginInfo loginInfo)
+        private void ProcessPostAsyncLoginSuccess(LoginInfo loginInfo)
         {
             Session session = loginInfo.Parameter.Request.ClientInfo.Session;
             if (SetLoginInfo(loginInfo))
@@ -129,20 +133,25 @@ namespace Trader.Server.Bll
                     default:
                         throw new ArgumentException(string.Format("{0} is not recogized", loginInfo.Parameter.AppType), "AppType");
                 }
-                return true;
             }
-            SessionManager.Default.RemoveToken(session);
-            return false;
+            else
+            {
+                SessionManager.Default.RemoveToken(session);
+            }
         }
 
-
-        private void SendErrorResult(SerializedObject request,int appType)
+        private void OnError(SerializedInfo request,AppType appType)
         {
-            if (appType != (int)AppType.Mobile)
+            if (appType != AppType.CppTrader)
             {
                 request.UpdateContent(XmlResultHelper.ErrorResult);
-                SendCenter.Default.Send(request);
             }
+            else
+            {
+                Debug.Assert(appType == AppType.CppTrader);
+                request.UpdateContent(JsonResponse.NewErrorResult());
+            }
+            SendCenter.Default.Send(request);
         }
 
 

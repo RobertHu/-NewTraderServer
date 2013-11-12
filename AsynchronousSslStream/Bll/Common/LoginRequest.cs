@@ -15,20 +15,22 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Trader.Server.CppTrader.Communication.Model;
 using Trader.Server.Core;
+using Trader.Server.Core.Request;
+using Trader.Server.Core.Response;
 namespace Trader.Server.Bll.Common
 {
     public class LoginRequest
     {
-        private SerializedObject _Request;
+        private SerializedInfo _Request;
         private Token _Token;
-        public LoginRequest(SerializedObject request,Token token)
+        public LoginRequest(SerializedInfo request,Token token)
         {
             _Request = request;
             _Token = token;
         }
         public void Execute()
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(_Request.Content);
+            List<string> argList =ArgumentsParser.Parse(_Request.Content);
             int appType = argList[3].ToInt();
             LoginParameter loginParameter = new LoginParameter()
             {
@@ -55,8 +57,7 @@ namespace Trader.Server.Bll.Common
             else if (appType == AppType.CppTrader)
             {
                 LoginResult result = new LoginResult { SessionId = _Request.ClientInfo.Session.ToString(), ServerDateTime=DateTime.Now.ToStandrandDateTimeStr() };
-                JObject content = (JsonServiceFactory.CreateResponseProvider()).Generate(result, _Request.ClientInfo.ClientInvokeId);
-                _Request.UpdateContent(new PacketContent(content));
+                _Request.UpdateContent(JsonResponse.NewResult(result));
                 SendCenter.Default.Send(_Request);
             }
             if (System.Configuration.ConfigurationManager.AppSettings["MobileDebug"] == "true")

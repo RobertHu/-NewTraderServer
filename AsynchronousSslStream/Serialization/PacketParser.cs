@@ -15,7 +15,7 @@ namespace Trader.Server.Serialization
     {
         private static ILog _Logger = LogManager.GetLogger(typeof(PacketParser));
 
-        public static SerializedObject  Parse(byte[] packet)
+        public static SerializedInfo  Parse(byte[] packet)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace Trader.Server.Serialization
             }
         }
 
-        private static SerializedObject ParseForGeneral(byte[] packet)
+        private static SerializedInfo ParseForGeneral(byte[] packet)
         {
             byte sessionLength = packet[PacketConstants.SessionLengthIndex];
             byte[] contentLengthBytes = new byte[PacketConstants.ContentHeaderLength];
@@ -54,7 +54,7 @@ namespace Trader.Server.Serialization
             return ParseXmlPacket(session, content);
         }
 
-        private static SerializedObject ParseXmlPacket(Session session, string content)
+        private static SerializedInfo ParseXmlPacket(Session session, string content)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(content);
@@ -64,24 +64,24 @@ namespace Trader.Server.Serialization
                 XElement contentNode = XDocument.Load(nodeReader).Root;
                 XElement clientInvokeNode = FetchClientInvokeNode(contentNode);
                 string clientInvokeId = clientInvokeNode == null ? string.Empty : clientInvokeNode.Value;
-                return SerializedObject.CreateForXml(session, clientInvokeId, contentNode);
+                return SerializedInfo.CreateForXml(session, clientInvokeId, contentNode);
             }
         }
 
-        private static SerializedObject ParseJsonPacket(Session session, string content)
+        private static SerializedInfo ParseJsonPacket(Session session, string content)
         {
             JObject jsonContent = JObject.Parse(content);
             var clientInvokeIdProperty = jsonContent[RequestConstants.InvokeIdNodeName];
             string clientInvokeId = clientInvokeIdProperty == null ? string.Empty : clientInvokeIdProperty.ToString();
-            return SerializedObject.CreateForJson(session, clientInvokeId, jsonContent);
+            return SerializedInfo.CreateForJson(session, clientInvokeId, jsonContent);
         }
 
-        private static SerializedObject ParseForKeepAlive(byte[] packet)
+        private static SerializedInfo ParseForKeepAlive(byte[] packet)
         {
             byte sessionLength = packet[PacketConstants.SessionLengthIndex];
             string sessionStr = PacketConstants.SessionEncoding.GetString(packet, PacketConstants.HeadLength, sessionLength);
             Session session = SessionMapping.Get(sessionStr);
-            return SerializedObject.CreateForKeepAlive(session, true, packet);
+            return SerializedInfo.CreateForKeepAlive(session, true, packet);
         }
 
         private static XElement FetchClientInvokeNode(XElement parent)

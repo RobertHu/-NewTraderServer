@@ -36,7 +36,7 @@ namespace Trader.Server.CppTrader.DataMappingAbstract
 
     public class LoginParameter
     {
-        public SerializedObject Request { get; set; }
+        public SerializedInfo Request { get; set; }
         public string LoginId { get; set; }
         public string Password { get; set; }
         public string Version { get; set; }

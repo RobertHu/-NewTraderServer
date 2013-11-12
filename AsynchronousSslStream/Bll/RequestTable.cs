@@ -12,11 +12,12 @@ using Wintellect.Threading.AsyncProgModel;
 using Trader.Server.SessionNamespace;
 using Trader.Server.Serialization;
 using Trader.Server.Bll.Common;
+using Trader.Server.Core.Request;
 namespace Trader.Server.Bll
 {
     public class RequestTable
     {
-        private Dictionary<string, Func<SerializedObject, Token, PacketContent>> table = new Dictionary<string, Func<SerializedObject, Token, PacketContent>>();
+        private Dictionary<string, Func<SerializedInfo, Token, PacketContent>> table = new Dictionary<string, Func<SerializedInfo, Token, PacketContent>>();
         private ILog _Logger = LogManager.GetLogger(typeof(RequestTable));
         public static readonly RequestTable Default = new RequestTable();
         private readonly Service _Service = new Service();
@@ -85,7 +86,7 @@ namespace Trader.Server.Bll
         }
 
 
-        public PacketContent Execute(string methodName, SerializedObject request, Token token)
+        public PacketContent Execute(string methodName, SerializedInfo request, Token token)
         {
             if (table.ContainsKey(methodName))
             {
@@ -97,65 +98,65 @@ namespace Trader.Server.Bll
                 return XmlResultHelper.ErrorResult;
             }
         }
-        private PacketContent GetNewsContentsAction(SerializedObject request, Token token)
+        private PacketContent GetNewsContentsAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return _Service.GetNewsContents(request.ClientInfo.Session, args[0]).ToPacketContent();
         }
-        private PacketContent GetQuotePolicyDetailsAndRefreshInstrumentsStateAction(SerializedObject request, Token token)
+        private PacketContent GetQuotePolicyDetailsAndRefreshInstrumentsStateAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return _Service.GetQuotePolicyDetailsAndRefreshInstrumentsState(request.ClientInfo.Session, args[0].ToGuid())
                     .ToPacketContent();
         }
-        private PacketContent UpdateQuotePolicyDetailAction(SerializedObject request, Token token)
+        private PacketContent UpdateQuotePolicyDetailAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             TraderState state = SessionManager.Default.GetTradingConsoleState(request.ClientInfo.Session);
             return Application.Default.TradingConsoleServer.UpdateQuotePolicyDetail(args[0].ToGuid(), args[1].ToGuid(), state)
                     .ToPacketContent();
         }
-        private PacketContent AccountSummaryForJava2Action(SerializedObject request, Token token)
+        private PacketContent AccountSummaryForJava2Action(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return StatementService.AccountSummaryForJava2(request.ClientInfo.Session, args[0], args[1], args[2],args[3])
                     .ToPacketContent();
         }
-        private PacketContent GetInterestRateByOrderIdAction(SerializedObject request, Token token)
+        private PacketContent GetInterestRateByOrderIdAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return InterestRateService.GetInterestRate(args[0].ToGuidArray()).ToPacketContent();
 
         }
-        private PacketContent GetInterestRateByInterestRateIdAction(SerializedObject request, Token token)
+        private PacketContent GetInterestRateByInterestRateIdAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return InterestRateService.GetInterestRate2(request.ClientInfo.Session, args[0].ToGuid())
                     .ToPacketContent();
         }
-        private PacketContent GetOrderInstalmentAction(SerializedObject request, Token token)
+        private PacketContent GetOrderInstalmentAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return _DeliveryService.GetOrderInstalment(args[0].ToGuid()).ToPacketContent();
         }
 
-        private PacketContent ApplyDeliveryAction(SerializedObject request, Token token)
+        private PacketContent ApplyDeliveryAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return _DeliveryService.ApplyDelivery(request.ClientInfo.Session, args[0].ToXmlNode())
                     .ToPacketContent();
         }
 
-        private PacketContent GetDeliveryAddressAction(SerializedObject request, Token token)
+        private PacketContent GetDeliveryAddressAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return _DeliveryService.GetDeliveryAddress(request.ClientInfo.Session, args[0].ToGuid())
                     .ToPacketContent();
         }
 
-        private PacketContent CancelLMTOrderAction(SerializedObject request, Token token)
+        private PacketContent CancelLMTOrderAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             if (token.AppType == AppType.Mobile)
             {
                 return Mobile.Manager.CancelPendingOrder(token, new Guid(args[0])).ToPacketContent();
@@ -166,9 +167,9 @@ namespace Trader.Server.Bll
             }
         }
 
-        private PacketContent ClearWorkingOrder(SerializedObject request, Token token)
+        private PacketContent ClearWorkingOrder(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             Guid? orderId = null;
             if (args != null && args.Count > 0 && !string.IsNullOrEmpty(args[0]))
             {
@@ -183,27 +184,27 @@ namespace Trader.Server.Bll
                 throw new NotImplementedException();
             }
         }
-        private PacketContent VerifyMarginPinAction(SerializedObject request, Token token)
+        private PacketContent VerifyMarginPinAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return PasswordService.VerifyMarginPin(args[0].ToGuid(), args[1]).ToPacketContent();
         }
 
-        private PacketContent MultipleCloseAction(SerializedObject request, Token token)
+        private PacketContent MultipleCloseAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return TransactionService.MultipleClose(request.ClientInfo.Session, args[0].ToGuidArray())
                     .ToPacketContent();
 
         }
-        private PacketContent DeleteMessageAction(SerializedObject request, Token token)
+        private PacketContent DeleteMessageAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return this._Service.DeleteMessage(request.ClientInfo.Session, args[0].ToGuid()).ToPacketContent();
         }
-        private PacketContent QueryOrderAction(SerializedObject request, Token token)
+        private PacketContent QueryOrderAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
 
             if (token.AppType == AppType.Mobile)
             {
@@ -222,9 +223,9 @@ namespace Trader.Server.Bll
             return this._Service.OrderQuery(request.ClientInfo.Session, args[0].ToGuid(), args[1], args[2], args[3].ToInt())
                     .ToPacketContent();
         }
-        private PacketContent ApplyAction(SerializedObject request, Token token)
+        private PacketContent ApplyAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return _Service.Apply(request.ClientInfo.Session, args[0].ToGuid(), args[1], args[2],
                 args[3], args[4], args[5], args[6],
                 args[7], args[8], args[9], args[10].ToGuid(),
@@ -232,113 +233,113 @@ namespace Trader.Server.Bll
                 , args[18].ToInt()).ToPacketContent();
 
         }
-        private PacketContent GetAccountBanksApprovedAction(SerializedObject request, Token token)
+        private PacketContent GetAccountBanksApprovedAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return AccountManager.Default.GetAccountBanksApproved(Guid.Parse(args[0]), args[1])
                     .ToPacketContent();
         }
 
-        private PacketContent ModifyTelephoneIdentificationCodeAction(SerializedObject request, Token token)
+        private PacketContent ModifyTelephoneIdentificationCodeAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return PasswordService.ModifyTelephoneIdentificationCode(request.ClientInfo.Session, Guid.Parse(args[0]), args[1], args[2])
                     .ToPacketContent();
         }
 
-        private PacketContent ChangeMarginPinAction(SerializedObject request, Token token)
+        private PacketContent ChangeMarginPinAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return PasswordService.ChangeMarginPin(Guid.Parse(args[0]), args[1], args[2])
                     .ToPacketContent();
         }
 
-        private PacketContent RecoverPasswordDatasAction(SerializedObject request, Token token)
+        private PacketContent RecoverPasswordDatasAction(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             var args = argList[0].To2DArray();
             return PasswordService.RecoverPasswordDatas(request.ClientInfo.Session, args).ToPacketContent();
         }
 
-        private PacketContent QuoteAction(SerializedObject request, Token token)
+        private PacketContent QuoteAction(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             return _Service.Quote(request.ClientInfo.Session, argList[0], double.Parse(argList[1]), int.Parse(argList[2]))
                     .ToPacketContent();
         }
 
-        private PacketContent Quote2Action(SerializedObject request, Token token)
+        private PacketContent Quote2Action(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             return _Service.Quote2(request.ClientInfo.Session, argList[0], double.Parse(argList[1]), double.Parse(argList[2]), int.Parse(argList[3]))
                     .ToPacketContent();
         }
 
-        private PacketContent LedgerForJava2Action(SerializedObject request, Token token)
+        private PacketContent LedgerForJava2Action(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             return StatementService.LedgerForJava2(request.ClientInfo.Session, argList[0], argList[1], argList[2], argList[3])
                     .ToPacketContent();
         }
 
-        private PacketContent LoginAction(SerializedObject request, Token token)
+        private PacketContent LoginAction(SerializedInfo request, Token token)
         {
             LoginRequest loginRequest = new LoginRequest(request, token);
             loginRequest.Execute();
             return null;
         }
 
-        private PacketContent GetInitDataAction(SerializedObject request, Token token)
+        private PacketContent GetInitDataAction(SerializedInfo request, Token token)
         {
             var initDataRequest = new InitDataRequest(request, token);
             return initDataRequest.Execute().ToPacketContent();
         }
-        private PacketContent GetTimeInfoAction(SerializedObject request, Token token)
+        private PacketContent GetTimeInfoAction(SerializedInfo request, Token token)
         {
             return TimeService.GetTimeInfo().ToPacketContent();
         }
 
-        private PacketContent GetNewsList2Action(SerializedObject request, Token token)
+        private PacketContent GetNewsList2Action(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             return NewsService.GetNewsList2(argList[0], argList[1], DateTime.Parse(argList[2]))
                     .ToPacketContent();
         }
 
-        private PacketContent GetMessagesAction(SerializedObject request, Token token)
+        private PacketContent GetMessagesAction(SerializedInfo request, Token token)
         {
             return MessageService.GetMessages(request.ClientInfo.Session).ToPacketContent();
 
         }
 
-        private PacketContent GetAccountBankReferenceDataAction(SerializedObject request, Token token)
+        private PacketContent GetAccountBankReferenceDataAction(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             return AccountManager.Default.GetAccountBankReferenceData(argList[0], argList[1])
                     .ToPacketContent();
         }
 
-        private PacketContent GetTickByTickHistoryDataAction(SerializedObject request, Token token)
+        private PacketContent GetTickByTickHistoryDataAction(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             return _Service.AsyncGetTickByTickHistoryData2(request.ClientInfo.Session, Guid.Parse(argList[0]), DateTime.Parse(argList[1]), DateTime.Parse(argList[2])).ToPacketContent();
         }
 
-        private PacketContent GetLostCommandsAction(SerializedObject request, Token token)
+        private PacketContent GetLostCommandsAction(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             return CommandManager.Default.GetLostCommands(request.ClientInfo.Session, int.Parse(argList[0]), int.Parse(argList[1]))
                 .ToPacketContent();
         }
 
-        private PacketContent GetInstrumentForSettingAction(SerializedObject request, Token token)
+        private PacketContent GetInstrumentForSettingAction(SerializedInfo request, Token token)
         {
             return InstrumentManager.Default.GetInstrumentForSetting(request.ClientInfo.Session).ToPacketContent();
         }
 
-        private PacketContent UpdateInstrumentSettingAction(SerializedObject request, Token token)
+        private PacketContent UpdateInstrumentSettingAction(SerializedInfo request, Token token)
         {
-            var argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            var argList =ArgumentsParser.Parse(request.Content);
             string[] instrumentIds = argList[0].Split(StringConstants.ArrayItemSeparator);
             if (token.AppType == AppType.Mobile)
             {
@@ -356,58 +357,58 @@ namespace Trader.Server.Bll
                 .ToPacketContent();
         }
 
-        private PacketContent saveLogAction(SerializedObject request, Token token)
+        private PacketContent saveLogAction(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             return LogService.SaveLog(request.ClientInfo.Session, argList[0], DateTime.Parse(argList[1]), argList[2], Guid.Parse(argList[3]))
                 .ToPacketContent();
         }
 
-        private PacketContent GetAccountsForSettingAction(SerializedObject request, Token token)
+        private PacketContent GetAccountsForSettingAction(SerializedInfo request, Token token)
         {
             return AccountManager.Default.GetAccountsForTradingConsole(request.ClientInfo.Session)
                 .ToPacketContent();
         }
 
 
-        private PacketContent UpdateAccountsSettingAction(SerializedObject request, Token token)
+        private PacketContent UpdateAccountsSettingAction(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             Guid[] accountIds = argList[0].ToGuidArray();
             return AccountManager.Default.UpdateAccountSetting(request.ClientInfo.Session, accountIds)
                 .ToPacketContent();
         }
 
-        private PacketContent UpdatePasswordAction(SerializedObject request, Token token)
+        private PacketContent UpdatePasswordAction(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             return PasswordService.UpdatePassword(request.ClientInfo.Session, argList[0], argList[1], argList[2])
                 .ToPacketContent();
         }
 
-        private PacketContent StatementForJava2Action(SerializedObject request, Token token)
+        private PacketContent StatementForJava2Action(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             return StatementService.StatementForJava2(request.ClientInfo.Session, int.Parse(argList[0]), argList[1], argList[2], argList[3], argList[4])
                 .ToPacketContent();
         }
 
-        private PacketContent GetReportContentAction(SerializedObject request, Token token)
+        private PacketContent GetReportContentAction(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             return StatementService.GetReportContent(Guid.Parse(argList[0])).ToPacketContent();
         }
 
-        private PacketContent GetMerchantInfoFor99BillAction(SerializedObject request, Token token)
+        private PacketContent GetMerchantInfoFor99BillAction(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             Guid[] organizationIds = argList[0].ToGuidArray();
             return PaymentService.GetMerchantInfoFor99Bill(organizationIds).ToPacketContent();
         }
 
-        private PacketContent AdditionalClientAction(SerializedObject request, Token token)
+        private PacketContent AdditionalClientAction(SerializedInfo request, Token token)
         {
-            List<string> argList = XmlRequestCommandHelper.GetArguments(request.Content);
+            List<string> argList =ArgumentsParser.Parse(request.Content);
             return ClientService.AdditionalClient(request.ClientInfo.Session, argList[0], argList[1], argList[2],
                 argList[3], argList[4], argList[5], argList[6], argList[7], argList[8],
                 argList[9], argList[10], argList[11], argList[12], argList[13], argList[14],
@@ -415,99 +416,99 @@ namespace Trader.Server.Bll
                 .ToPacketContent();
         }
 
-        private PacketContent AgentAction(SerializedObject request, Token token)
+        private PacketContent AgentAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return ClientService.Agent(request.ClientInfo.Session, args[0], args[1], args[2],
                 args[3], args[4], args[5], args[6], args[7], args[8],
                 args[9], args[10], args[11])
                 .ToPacketContent();
         }
 
-        private PacketContent CallMarginExtensionAction(SerializedObject request, Token token)
+        private PacketContent CallMarginExtensionAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return ClientService.CallMarginExtension(request.ClientInfo.Session, args[0], args[1],
                 args[2], args[3], args[4], args[5], args[6], args[7], args[8])
                 .ToPacketContent();
         }
 
-        private PacketContent FundTransferAction(SerializedObject request, Token token)
+        private PacketContent FundTransferAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return ClientService.FundTransfer(request.ClientInfo.Session, args[0], args[1],
                 args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10])
                 .ToPacketContent();
         }
 
-        private PacketContent PaymentInstructionAction(SerializedObject request, Token token)
+        private PacketContent PaymentInstructionAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return ClientService.PaymentInstruction(request.ClientInfo.Session, args[0], args[1],
                 args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], args[10],
                 args[11], args[12], args[13], args[14])
                 .ToPacketContent();
         }
 
-        private PacketContent PaymentInstructionInternalAction(SerializedObject request, Token token)
+        private PacketContent PaymentInstructionInternalAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return ClientService.PaymentInstructionInternal(request.ClientInfo.Session, args[0], args[1],
                 args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9])
                 .ToPacketContent();
 
         }
 
-        private PacketContent PaymentInstructionCashAction(SerializedObject request, Token token)
+        private PacketContent PaymentInstructionCashAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return ClientService.PaymentInstructionCash(request.ClientInfo.Session, args[0], args[1], args[2],
                 args[3], args[4], args[5], args[6], args[7], args[8])
                 .ToPacketContent();
         }
 
-        private PacketContent AssignAction(SerializedObject request, Token token)
+        private PacketContent AssignAction(SerializedInfo request, Token token)
         {
             return ClientService.Assign(request.ClientInfo.Session).ToPacketContent();
         }
 
-        private PacketContent ChangeLeverageAction(SerializedObject request, Token token)
+        private PacketContent ChangeLeverageAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return ClientService.ChangeLeverage(request.ClientInfo.Session, Guid.Parse(args[0]), int.Parse(args[1])).ToPacketContent();
 
         }
 
-        private PacketContent AsyncGetChartData2Action(SerializedObject request, Token token)
+        private PacketContent AsyncGetChartData2Action(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return TickService.AsyncGetChartData2(request.ClientInfo.Session, Guid.Parse(args[0]), DateTime.Parse(args[1]), DateTime.Parse(args[2]), args[3])
                 .ToPacketContent();
 
         }
 
-        private PacketContent GetChartDataAction(SerializedObject request, Token token)
+        private PacketContent GetChartDataAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return TickService.GetChartData(Guid.Parse(args[0])).ToPacketContent();
         }
 
-        private PacketContent AsyncGetChartData2ForMobileAction(SerializedObject request, Token token)
+        private PacketContent AsyncGetChartData2ForMobileAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return TickService.AsyncGetChartData2ForMobile(request.ClientInfo.Session, Guid.Parse(args[0]), DateTime.Parse(args[1]), DateTime.Parse(args[2]), args[3]).ToPacketContent();
         }
 
-        private PacketContent VerifyTransactionAction(SerializedObject request, Token token)
+        private PacketContent VerifyTransactionAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             return TransactionService.VerifyTransaction(request.ClientInfo.Session, args[0].ToGuidArray()).ToPacketContent();
 
         }
 
-        private PacketContent PlaceAction(SerializedObject request, Token token)
+        private PacketContent PlaceAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             if (token != null && token.AppType == iExchange.Common.AppType.Mobile)
             {
                 ICollection<Mobile.Server.Transaction> transactions = Mobile.Manager.ConvertPlacingRequest(token, args[0].ToXmlNode());
@@ -530,9 +531,9 @@ namespace Trader.Server.Bll
             return TransactionService.Place(request.ClientInfo.Session, args[0].ToXmlNode()).ToPacketContent();
         }
 
-        private PacketContent ModifyOrderAction(SerializedObject request, Token token)
+        private PacketContent ModifyOrderAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             if (token != null && token.AppType == AppType.Mobile)
             {
                 Guid orderId = new Guid(args[0]);
@@ -568,9 +569,9 @@ namespace Trader.Server.Bll
             }
         }
 
-        public PacketContent CancelAction(SerializedObject request, Token token)
+        public PacketContent CancelAction(SerializedInfo request, Token token)
         {
-            var args = XmlRequestCommandHelper.GetArguments(request.Content);
+            var args =ArgumentsParser.Parse(request.Content);
             Guid transactionId = new Guid(args[0]);
             TransactionError transactionError = Application.Default.StateServer.Cancel(token, transactionId, CancelReason.CustomerCanceled);
             if (token.AppType == AppType.Mobile)
@@ -590,12 +591,12 @@ namespace Trader.Server.Bll
         }
 
 
-        private PacketContent RecoverAction(SerializedObject request, Token token)
+        private PacketContent RecoverAction(SerializedInfo request, Token token)
         {
             return RecoverService.Recover(request.ClientInfo.Session, request.ClientInfo.ClientId);
         }
 
-        private PacketContent LogoutAction(SerializedObject request, Token token)
+        private PacketContent LogoutAction(SerializedInfo request, Token token)
         {
             PacketContent result = LoginOutService.Logout(request.ClientInfo.Session);
             if (token.AppType == AppType.Mobile)

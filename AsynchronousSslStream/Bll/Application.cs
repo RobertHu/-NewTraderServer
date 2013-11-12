@@ -121,7 +121,7 @@ namespace Trader.Server.Bll
                 return;
             }
             Trader.Server.Ssl.Client client = AgentController.GetSender(sessionId);
-            UnmanagedMemory mem = Serialization.SerializeManager.Default.Serialize(Serialization.SerializedObject.CreateForXml(sessionId, null, eventArg.XElement));
+            UnmanagedMemory mem = Serialization.SerializeManager.Default.Serialize(Serialization.SerializedInfo.CreateForXml(sessionId, null, eventArg.XElement));
             var commandForClient = new ValueObjects.CommandForClient(mem, null, null);
             client.Send(commandForClient);
         }

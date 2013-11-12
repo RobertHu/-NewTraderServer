@@ -84,7 +84,16 @@ namespace Trader.Server.CppTrader.DataMapping.WebService
             token.UserID = loginInfo.UserID;
             token.SessionID = parameter.Request.ClientInfo.Session.ToString();
             SessionManager.Default.AddToken(parameter.Request.ClientInfo.Session, token);
-            Application.Default.StateServer.BeginLogin(token, ae.End(), null);
+
+            var stateServerCallToken = new Token
+            {
+                UserID = token.UserID,
+                AppType = AppType.TradingConsole,
+                SessionID = token.SessionID,
+                UserType=token.UserType
+            };
+
+            Application.Default.StateServer.BeginLogin(stateServerCallToken, ae.End(), null);
             yield return 1;
             bool isStateServerLogined = false;
             try

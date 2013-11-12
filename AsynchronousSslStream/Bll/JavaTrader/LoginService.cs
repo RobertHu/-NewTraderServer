@@ -16,6 +16,7 @@ using Trader.Server.Bll.Common;
 using System.Data;
 using Trader.Server.CppTrader.DataMapping.WebService;
 using Wintellect.Threading.AsyncProgModel;
+using Trader.Server.Serialization;
 
 namespace Trader.Server.Bll.JavaTrader
 {
@@ -39,7 +40,7 @@ namespace Trader.Server.Bll.JavaTrader
             ae.BeginExecute(initDataProvider.AsyncGetInitData(token, ae), ae.EndExecute); 
         }
 
-        private void LoadInitDataCompletedCallback(IInitDataProvider sender,DataSet initData)
+        private void LoadInitDataCompletedCallback(IInitDataProvider sender, DataSet initData)
         {
             sender.Completed -= LoadInitDataCompletedCallback;
             var loginData = SetResultForJavaTrader(_LoginInfo);
@@ -47,9 +48,13 @@ namespace Trader.Server.Bll.JavaTrader
             {
                 DataSet ds = InitDataService.Init(_LoginInfo.Parameter.Request.ClientInfo.Session, initData);
                 SetLoginDataToInitData(ds, loginData);
-                _LoginInfo.Parameter.Request.UpdateContent(new Serialization.PacketContent( ds.ToPointer()));
-                SendCenter.Default.Send(_LoginInfo.Parameter.Request);
+                _LoginInfo.Parameter.Request.UpdateContent(new Serialization.PacketContent(ds.ToPointer()));
             }
+            else
+            {
+                _LoginInfo.Parameter.Request.UpdateContent(XmlResultHelper.ErrorResult);
+            }
+            SendCenter.Default.Send(_LoginInfo.Parameter.Request);
         }
 
 

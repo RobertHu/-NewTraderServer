@@ -8,7 +8,8 @@ using System.Threading;
 using Trader.Server.Util;
 using Trader.Server.Serialization;
 using Trader.Server.Bll;
-
+using Trader.Server.Core.Request;
+using Trader.Server.TypeExtension;
 namespace Trader.Server.Ssl
 {
 	public class ReceiveAgent
@@ -41,7 +42,7 @@ namespace Trader.Server.Ssl
 
         private void ProcessCallback(object state)
         {
-            SerializedObject request = PacketParser.Parse(_Current.Data);
+            SerializedInfo request = PacketParser.Parse(_Current.Data);
             if (request != null)
             {
                 var sender = Application.Default.AgentController.GetSender(_Current.ClientId);
@@ -49,9 +50,49 @@ namespace Trader.Server.Ssl
                 request.ClientInfo.Initialize(_Current.ClientId, sender, remoteIp);
                 if (request.ClientInfo.Session == Session.InvalidValue)
                     request.ClientInfo.UpdateSession(_Current.ClientId);
-                ClientRequestHelper.Process(request);
+                ProcessRequest(request);
             }
             ProcessData();
+        }
+
+        private void ProcessRequest(SerializedInfo request)
+        {
+            PacketContent responseContent=null;
+            try
+            {
+                ContentType contentType = request.Content.ContentType;
+                IRequestProcessor requestProcessor;
+                if (contentType == ContentType.KeepAlivePacket)
+                {
+                    requestProcessor = KeepAliveProcessor.Default;
+                }
+                else if (contentType == ContentType.Xml)
+                {
+                    requestProcessor = XmlProcessor.Default;
+                }
+                else if (contentType == ContentType.Json)
+                {
+                    requestProcessor = JsonProcessor.Default;
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+                responseContent = requestProcessor.Process(request);
+            }
+            catch (Exception ex)
+            {
+                responseContent = XmlResultHelper.NewErrorResult(ex.ToString()).ToPacketContent();
+            }
+            finally
+            {
+                Application.Default.SessionMonitor.Update(request.ClientInfo.Session);
+                if (responseContent != null)
+                {
+                    request.UpdateContent(responseContent);
+                    SendCenter.Default.Send(request);
+                }
+            }
         }
 	}
 }

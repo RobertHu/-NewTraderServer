@@ -4,30 +4,29 @@ using System.Xml.Linq;
 using Trader.Common;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
+using Newtonsoft.Json;
 namespace Trader.Server.Serialization
 {
     public static class PacketBuilder
     {
         [DllImport("kernel32.dll", EntryPoint = "CopyMemory", SetLastError = false)]
         public static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);
-        public  static UnmanagedMemory Build(SerializedObject response)
+        public  static UnmanagedMemory Build(SerializedInfo response)
         {
             ContentType contentType = response.Content.ContentType;
             if (contentType==ContentType.KeepAlivePacket)
             {
                 return BuildForKeepAlive(response);
             }
-
             if (contentType == ContentType.UnmanageMemory)
             {
                 return  BuildForPointer(response.Content.UnmanageMem, response.ClientInfo.ClientInvokeId);
             }
-
             return BuildForGeneralFormat(response);
         }
 
 
-        private static UnmanagedMemory BuildForGeneralFormat(SerializedObject response)
+        private static UnmanagedMemory BuildForGeneralFormat(SerializedInfo response)
         {
              if (!string.IsNullOrEmpty(response.ClientInfo.ClientInvokeId))
             {
@@ -47,7 +46,7 @@ namespace Trader.Server.Serialization
         }
 
 
-        private static UnmanagedMemory BuildForKeepAlive(SerializedObject response)
+        private static UnmanagedMemory BuildForKeepAlive(SerializedInfo response)
         {
             Debug.Assert(response.Content.ContentType == ContentType.KeepAlivePacket, "content type should be keepalive");
             KeepAlive keepAlive = response.Content.KeepAlive;
@@ -170,7 +169,7 @@ namespace Trader.Server.Serialization
             }
             else
             {
-                bytes = PacketConstants.ContentEncoding.GetBytes(content.JsonContent.ToString());
+                bytes = PacketConstants.ContentEncoding.GetBytes(content.JsonContent.ToString(Formatting.None));
             }
             return bytes;
         }

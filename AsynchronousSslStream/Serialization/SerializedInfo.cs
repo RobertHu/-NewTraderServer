@@ -11,9 +11,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 namespace Trader.Server.Serialization
 {
-    public class SerializedObject
+    public class SerializedInfo
     {
-        private SerializedObject() { }
+        private SerializedInfo() { }
 
         public PacketContent Content { get; private set; }
         public ClientInfo ClientInfo { get; private set; }
@@ -23,18 +23,18 @@ namespace Trader.Server.Serialization
             this.Content = content;
         }
 
-        public static SerializedObject CreateForKeepAlive(Session session, bool isKeepAlive, byte[] keepAlivePacket)
+        public static SerializedInfo CreateForKeepAlive(Session session, bool isKeepAlive, byte[] keepAlivePacket)
         {
-            SerializedObject target = new SerializedObject()
+            SerializedInfo target = new SerializedInfo()
             {
                 Content = new PacketContent(keepAlivePacket),
                 ClientInfo = new ClientInfo(null, session)
             };
             return target;
         }
-        public static SerializedObject CreateForXml(Session session, string clientInvokeId, XElement content)
+        public static SerializedInfo CreateForXml(Session session, string clientInvokeId, XElement content)
         {
-            SerializedObject target = new SerializedObject()
+            SerializedInfo target = new SerializedInfo()
             {
                 Content= new PacketContent(content),
                 ClientInfo=new ClientInfo(clientInvokeId,session)
@@ -42,25 +42,16 @@ namespace Trader.Server.Serialization
             return target;
         }
 
-        public static SerializedObject CreateForJson(Session session, string clientInvokeId, JObject content)
+        public static SerializedInfo CreateForJson(Session session, string clientInvokeId, JObject content)
         {
-            SerializedObject target = new SerializedObject()
+            SerializedInfo target = new SerializedInfo()
             {
                 Content=new PacketContent(content),
                 ClientInfo=new ClientInfo(clientInvokeId,session)
             };
             return target;
         }
-
-        public static SerializedObject CreateForUnmanageMemory(Session session, string clientInvokeId, UnmanagedMemory mem)
-        {
-            SerializedObject target = new SerializedObject()
-            {
-                Content=new PacketContent(mem),
-                ClientInfo=new ClientInfo(clientInvokeId,session)
-            };
-            return target;
-        }
+       
     }
 
     public enum ContentType

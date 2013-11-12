@@ -12,7 +12,7 @@ namespace Trader.Server.Serialization
 
         public static readonly SerializeManager Default = new SerializeManager();
 
-        public UnmanagedMemory Serialize(SerializedObject target)
+        public UnmanagedMemory Serialize(SerializedInfo target)
         {
             return PacketBuilder.Build(target);
         }
@@ -28,7 +28,7 @@ namespace Trader.Server.Serialization
             return PacketBuilder.BuildForContentInBytesCommand(content);
         }
 
-        public SerializedObject Deserialze(byte[] packet)
+        public SerializedInfo Deserialze(byte[] packet)
         {
             return PacketParser.Parse(packet);
         }

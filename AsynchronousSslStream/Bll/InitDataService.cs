@@ -23,7 +23,7 @@ namespace Trader.Server.Bll
     public class InitDataService
     {
         private static readonly ILog _Logger = LogManager.GetLogger(typeof(InitDataService));
-        public static IEnumerator<int> GetInitData(SerializedObject request,AsyncEnumerator ae)
+        public static IEnumerator<int> GetInitData(SerializedInfo request,AsyncEnumerator ae)
         {
             Session session = request.ClientInfo.Session;
             Token token = SessionManager.Default.GetToken(session);
@@ -41,7 +41,7 @@ namespace Trader.Server.Bll
             }
         }
 
-        private static void InitAndSendInitDataInPointer(SerializedObject request,DataSet initData)
+        private static void InitAndSendInitDataInPointer(SerializedInfo request,DataSet initData)
         {
             DataSet ds = Init(request.ClientInfo.Session, initData);
             request.UpdateContent(new PacketContent(ds.ToPointer()));
@@ -49,7 +49,7 @@ namespace Trader.Server.Bll
         }
 
 
-        private static void SendErrorResult(SerializedObject request,Exception ex)
+        private static void SendErrorResult(SerializedInfo request,Exception ex)
         {
             _Logger.Error(ex);
             request.UpdateContent( XmlResultHelper.ErrorResult);
