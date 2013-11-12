@@ -188,18 +188,21 @@
     <Compile Include="Config\ServiceSettings.cs" />
     <Compile Include="Core\ClientsCenter.cs" />
     <Compile Include="Core\CommandTransfer.cs" />
-    <Compile Include="Core\ComponentFactory.cs" />
+    <Compile Include="Core\Factory\ComponentFactory.cs" />
     <Compile Include="Core\DisconnectedClientProccessor.cs" />
     <Compile Include="Core\IClientsProcessor.cs" />
     <Compile Include="Core\ICommandTransfer.cs" />
     <Compile Include="Core\IDisconnectedClientProccessor.cs" />
-    <Compile Include="Core\JsonServiceFactory.cs" />
+    <Compile Include="Core\Request\ArgumentsParser.cs" />
+    <Compile Include="Core\Request\IRequestProcessor.cs" />
+    <Compile Include="Core\Factory\JsonServiceFactory.cs" />
+    <Compile Include="Core\Request\JsonProcessor.cs" />
+    <Compile Include="Core\Request\KeepAliveProcessor.cs" />
+    <Compile Include="Core\Request\MethodRequestProcessor.cs" />
+    <Compile Include="Core\Request\XmlProcessor.cs" />
+    <Compile Include="Core\Response\JsonResponse.cs" />
     <Compile Include="CppTrader\ApplicationLayer\InitDataService.cs" />
-    <Compile Include="CppTrader\CommunicationAbstract\IResponseProvider.cs" />
     <Compile Include="CppTrader\Communication\Model\LoginResult.cs" />
-    <Compile Include="CppTrader\Communication\ResponseConstants.cs" />
-    <Compile Include="CppTrader\Communication\Response.cs" />
-    <Compile Include="CppTrader\Communication\ResponseProvider.cs" />
     <Compile Include="CppTrader\DataMappingAbstract\IInitDataProvider.cs" />
     <Compile Include="CppTrader\DataMappingAbstract\ILoginProvider.cs" />
     <Compile Include="CppTrader\DataMapping\Account.cs" />
@@ -289,7 +292,7 @@
     <Compile Include="Serialization\CustomerIntCache.cs" />
     <Compile Include="Serialization\PacketBuilder.cs" />
     <Compile Include="Serialization\PacketParser.cs" />
-    <Compile Include="Serialization\SerializedObject.cs" />
+    <Compile Include="Serialization\SerializedInfo.cs" />
     <Compile Include="Serialization\SerializeManager.cs" />
     <Compile Include="Serialization\ZlibHelper.cs" />
     <Compile Include="Service\NamedCommands.cs" />
@@ -321,8 +324,6 @@
     <Compile Include="TypeExtension\GuidExtension.cs" />
     <Compile Include="TypeExtension\StringExtension.cs" />
     <Compile Include="TypeExtension\XElementExtension.cs" />
-    <Compile Include="Util\ClientRequestHelper.cs" />
-    <Compile Include="Util\XmlRequestCommandHelper.cs" />
     <Compile Include="Util\XmlResultHelper.cs" />
     <Compile Include="Util\XmlSerializeHelper.cs" />
     <Compile Include="ValueObjects\SenderReceiverPair.cs" />
@@ -1292,6 +1293,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CppTrader\ApplicationLayerAbstract\" />
+    <Folder Include="CppTrader\CommunicationAbstract\" />
     <Folder Include="CppTrader\Domain\" />
     <Folder Include="Setting\MHL\CHS\CallMargin\" />
     <Folder Include="Setting\MHL\CHT\CallMargin\" />
