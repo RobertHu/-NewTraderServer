@@ -7,16 +7,15 @@ namespace Trader.Common
 {
     public struct Session:IEquatable<Session>
     {
-        public static Session InvalidValue = new Session(0);
-        private long _Id;
+        public static Session InvalidSession = new Session(0);
+        private readonly long _Id;
         public Session(long id)
         {
             _Id = id;
         }
-        public long ID
+        public long Id
         {
             get { return _Id; }
-            set { _Id = value; }
         }
         public override bool Equals(object obj)
         {
@@ -29,12 +28,12 @@ namespace Trader.Common
         }
         public static bool operator ==(Session s1, Session s2)
         {
-            return s1.ID == s2.ID;
+            return s1.Id == s2.Id;
         }
 
         public static bool operator !=(Session s1, Session s2)
         {
-            return s1.ID != s2.ID;
+            return s1.Id != s2.Id;
         }
 
         public override int GetHashCode()
@@ -58,7 +57,7 @@ namespace Trader.Common
             }
             else
             {
-                session = InvalidValue;
+                session = InvalidSession;
                 result = false;
             }
             return result;
@@ -66,7 +65,7 @@ namespace Trader.Common
 
         public bool Equals(Session other)
         {
-            return _Id == other.ID;
+            return _Id == other.Id;
         }
     }
 }

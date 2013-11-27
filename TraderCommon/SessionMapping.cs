@@ -33,7 +33,7 @@ namespace Trader.Common
             _ReadWriteLock.EnterReadLock();
             try
             {
-                return _Dict.ContainsKey(session) ? _Dict[session] : Session.InvalidValue;
+                return _Dict.ContainsKey(session) ? _Dict[session] : Session.InvalidSession;
             }
             finally
             {
