@@ -160,7 +160,7 @@ namespace Trader.Server.Bll.JavaTrader
                 string newsLanguage = loginXmlNode.SelectNodes("NewsLanguage").Item(0).InnerXml;
                 TraderState state = SessionManager.Default.GetTradingConsoleState(session) ??
                                     new TraderState(session.ToString());
-                state.Language = newsLanguage.ToLower();
+                state.Language=newsLanguage.ToLower();
                 SessionManager.Default.AddTradingConsoleState(session, state);
                 XmlElement newChild = parameterDocument.CreateElement("NewsLanguage");
                 newChild.InnerText = loginXmlNode.SelectNodes("NewsLanguage").Item(0).InnerXml;

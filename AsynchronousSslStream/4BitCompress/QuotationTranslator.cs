@@ -77,11 +77,11 @@ namespace Trader.Server._4BitCompress
                 for (int i = 0; i < overridedQuotations.Length; i++)
                 {
                     OverridedQuotation overridedQuotation = overridedQuotations[i];
-                    if (!state.InstrumentsEx.ContainsKey(overridedQuotation.InstrumentID))
+                    if (!state.InstrumentsView.ContainsKey(overridedQuotation.InstrumentID))
                     {
                         continue;
                     }
-                    if (overridedQuotation.QuotePolicyID != state.InstrumentsEx[overridedQuotation.InstrumentID])
+                    if (overridedQuotation.QuotePolicyID != state.InstrumentsView[overridedQuotation.InstrumentID])
                     {
                         continue;
                     }

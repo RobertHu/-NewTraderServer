@@ -23,11 +23,11 @@ namespace Trader.Server.Bll
         private static ILog _Logger = LogManager.GetLogger(typeof (TickService));
         public static XElement GetTickByTickHistoryData(Session session, Guid instrumentId, DateTime from, DateTime to)
         {
-            TradingConsoleState state = SessionManager.Default.GetTradingConsoleState(session);
+            TraderState state = SessionManager.Default.GetTradingConsoleState(session);
             XElement  result = null;
-            if (state.Instruments.ContainsKey(instrumentId))
+            if (state.InstrumentsView.ContainsKey(instrumentId))
             {
-                Guid quotePolicyId = (Guid)state.Instruments[instrumentId];
+                Guid quotePolicyId = state.InstrumentsView[instrumentId];
                 DataSet ds = Application.Default.TradingConsoleServer.GetTickByTickHistoryDatas2(instrumentId, quotePolicyId, from, to);
                 result = XmlResultHelper.NewResult( ds.ToXml());
             }

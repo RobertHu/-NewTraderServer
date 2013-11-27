@@ -68,10 +68,10 @@ namespace Trader.Server.Bll
         {
             var state = SessionManager.Default.GetTradingConsoleState(session);
             if (state == null) return;
-            state.Instruments.Clear();
+            state.InstrumentsView.Clear();
             foreach (var pair in quotePolicyIds)
             {
-                state.Instruments.Add(pair.Key, pair.Value);
+                state.InstrumentsView.Add(pair.Key, pair.Value);
             }
             state.CaculateQuotationFilterSign();
         }

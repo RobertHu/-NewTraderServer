@@ -265,12 +265,12 @@ namespace Trader.Server.Bll
             return dataSet;
         }
 
-        public void RefreshInstrumentsState(DataSet dataSet, ref TradingConsoleState state2, string sessionId)
+        public void RefreshInstrumentsState(DataSet dataSet, ref TraderState state2, string sessionId)
         {
-            TradingConsoleState state = state2 ?? new TradingConsoleState(sessionId);
-            if (state.Instruments.Count > 0)
+            TraderState state = state2 ?? new TraderState(sessionId);
+            if (state.InstrumentsView.Count > 0)
             {
-                state.Instruments.Clear();
+                state.InstrumentsView.Clear();
             }
 
             if (dataSet != null && dataSet.Tables.Count > 0)
@@ -281,7 +281,7 @@ namespace Trader.Server.Bll
                 DataRowCollection rows = dataSet.Tables["Instrument"].Rows;
                 foreach (DataRow instrumentRow in rows)
                 {
-                    state.Instruments.Add(instrumentRow["ID"], instrumentRow["QuotePolicyID"]);
+                    state.InstrumentsView.Add((Guid)instrumentRow["ID"], (Guid)instrumentRow["QuotePolicyID"]);
 
                     if (quotePolicyInfo.Length > 0) quotePolicyInfo.Append(";");
                     quotePolicyInfo.Append(instrumentRow["ID"]);
@@ -315,12 +315,12 @@ namespace Trader.Server.Bll
             return dataSet;
         }
 
-        public void RefreshInstrumentsState2(DataSet dataSet, ref TradingConsoleState state2, string sessionId)
+        public void RefreshInstrumentsState2(DataSet dataSet, ref TraderState state2, string sessionId)
         {
-            TradingConsoleState state = state2 ?? new TradingConsoleState(sessionId);
-            if (state.Instruments.Count > 0)
+            TraderState state = state2 ?? new TraderState(sessionId);
+            if (state.InstrumentsView.Count > 0)
             {
-                state.Instruments.Clear();
+                state.InstrumentsView.Clear();
             }
 
             if (dataSet.Tables.Count > 0)
@@ -331,8 +331,7 @@ namespace Trader.Server.Bll
                 DataRowCollection rows = dataSet.Tables["QuotePolicyDetail"].Rows;
                 foreach (DataRow quotePolicyDetailRow in rows)
                 {
-                    state.Instruments.Add(quotePolicyDetailRow["InstrumentID"], quotePolicyDetailRow["QuotePolicyID"]);
-
+                    state.InstrumentsView.Add((Guid)quotePolicyDetailRow["InstrumentID"], (Guid)quotePolicyDetailRow["QuotePolicyID"]);
                     if (quotePolicyInfo.Length > 0) quotePolicyInfo.Append(";");
                     quotePolicyInfo.Append(quotePolicyDetailRow["InstrumentID"]);
                     quotePolicyInfo.Append("=");
@@ -634,7 +633,7 @@ namespace Trader.Server.Bll
             }
             else
             {
-                List<Guid> notExistKeys = state.InstrumentsEx.Keys.Where(key => !instrumentIDs.Contains(key.ToString())).ToList();
+                List<Guid> notExistKeys = state.InstrumentsView.GetKeys().Where(key => !instrumentIDs.Contains(key.ToString())).ToList();
                 foreach(var key in notExistKeys)
                 {
                     state.RemoveInstrumentIDToQuotePolicyMapping(key);
@@ -644,7 +643,7 @@ namespace Trader.Server.Bll
                     rows = instruments.Tables["Instrument"].Rows;
                     foreach (DataRow instrumentRow in rows)
                     {
-                        if (!state.InstrumentsEx.ContainsKey((Guid)instrumentRow["ID"]))
+                        if (!state.InstrumentsView.ContainsKey((Guid)instrumentRow["ID"]))
                         {
                             state.AddInstrumentIDToQuotePolicyMapping((Guid)instrumentRow["ID"], (Guid)instrumentRow["QuotePolicyID"]);
                         }

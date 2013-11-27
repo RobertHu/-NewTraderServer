@@ -67,10 +67,10 @@ namespace Trader.Server.Bll
         {
             try
             {
-                TradingConsoleState state = SessionManager.Default.GetTradingConsoleState(session);
-                if (state.Instruments.ContainsKey(instrumentId))
+                TraderState state = SessionManager.Default.GetTradingConsoleState(session);
+                if (state.InstrumentsView.ContainsKey(instrumentId))
                 {
-                    Guid quotePolicyId = (Guid)state.Instruments[instrumentId];
+                    Guid quotePolicyId = state.InstrumentsView[instrumentId];
                     DataSet dataSet = Application.Default.TradingConsoleServer.GetTickByTickHistoryDatas(instrumentId, quotePolicyId);
                     return dataSet;
                 }
@@ -216,7 +216,7 @@ namespace Trader.Server.Bll
         private DataSet InternalGetQuotePolicyDetailsAndRefreshInstrumentsState(Session session,Guid customerID)
         {
             DataSet dataSet = Application.Default.TradingConsoleServer.GetQuotePolicyDetails(customerID);
-            TradingConsoleState state = SessionManager.Default.GetTradingConsoleState(session);
+            TraderState state = SessionManager.Default.GetTradingConsoleState(session);
             Application.Default.TradingConsoleServer.RefreshInstrumentsState2(dataSet, ref state, session.ToString());
             if (state == null) return dataSet;
             TraderState traderState = new TraderState(state);

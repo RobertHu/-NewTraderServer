@@ -8,49 +8,50 @@ using System.Collections;
 using Trader.Server._4BitCompress;
 namespace Trader.Server.SessionNamespace
 {
-    public class TraderState:TradingConsoleState
+    public class TraderState : TradingConsoleState
     {
         private Dictionary<Guid, Guid> _InstrumentsEx = new Dictionary<Guid, Guid>();
-
-        public TraderState(string sessionId) : base(sessionId) { }
+        private InstrumentsAdapter _InstrumentsAdapter;
+        public TraderState(string sessionId)
+            : base(sessionId)
+        {
+            _InstrumentsAdapter = new InstrumentsAdapter(_InstrumentsEx, Instruments);
+        }
         public TraderState(TradingConsoleState state)
             : base(state.SessionId)
         {
+            _InstrumentsAdapter = new InstrumentsAdapter(_InstrumentsEx, Instruments);
             if (state != null)
             {
                 Copy(state.AccountGroups, this.AccountGroups);
                 Copy(state.Accounts, this.Accounts);
-                Copy(state.Instruments, this.Instruments);
-                foreach(DictionaryEntry item in state.Instruments)
+                foreach (DictionaryEntry item in state.Instruments)
                 {
-                    _InstrumentsEx.Add((Guid)item.Key, (Guid)item.Value);
+                    _InstrumentsAdapter.Add((Guid)item.Key, (Guid)item.Value);
                 }
                 this.Language = state.Language;
                 this.IsEmployee = state.IsEmployee;
             }
         }
 
-        public Dictionary<Guid, Guid> InstrumentsEx { get { return this._InstrumentsEx; } }
-
-        public void AddInstrumentIDToQuotePolicyMapping(Guid instrumentID,Guid quotePolicyID)
+        public InstrumentsAdapter InstrumentsView
         {
-            if (!this._InstrumentsEx.ContainsKey(instrumentID))
-            {
-                this._InstrumentsEx.Add(instrumentID, quotePolicyID);
-                this.Instruments.Add(instrumentID, quotePolicyID);
-            }
+            get { return _InstrumentsAdapter; }
         }
+
+
+        public void AddInstrumentIDToQuotePolicyMapping(Guid instrumentID, Guid quotePolicyID)
+        {
+            _InstrumentsAdapter.Add(instrumentID, quotePolicyID);
+        }
+
 
         public void RemoveInstrumentIDToQuotePolicyMapping(Guid instrumentId)
         {
-            if (this._InstrumentsEx.ContainsKey(instrumentId))
-            {
-                this._InstrumentsEx.Remove(instrumentId);
-                this.Instruments.Remove(instrumentId);
-            }
+            _InstrumentsAdapter.Remove(instrumentId);
         }
 
-        private void Copy(Hashtable source,Hashtable destination)
+        private void Copy(Hashtable source, Hashtable destination)
         {
             foreach (DictionaryEntry item in source)
             {
@@ -64,13 +65,13 @@ namespace Trader.Server.SessionNamespace
 
         public void CaculateQuotationFilterSign()
         {
-            List<Guid> instrumentIds = new List<Guid>(this.InstrumentsEx.Keys);
+            List<Guid> instrumentIds = new List<Guid>(this.InstrumentsView.GetKeys());
             instrumentIds.Sort();
             StringBuilder sb = new StringBuilder();
             foreach (Guid instrumentId in instrumentIds)
             {
                 sb.Append(instrumentId);
-                sb.Append(this.InstrumentsEx[instrumentId]);
+                sb.Append(this.InstrumentsView[instrumentId]);
             }
             byte[] sign = MD5.Create().ComputeHash(ASCIIEncoding.ASCII.GetBytes(sb.ToString()));
             this.QuotationFilterSign = Convert.ToBase64String(sign);
@@ -79,8 +80,83 @@ namespace Trader.Server.SessionNamespace
 
         public void ClearInstrumentQuotePolicyIdMapping()
         {
-            _InstrumentsEx.Clear();
-            Instruments.Clear();
+            _InstrumentsAdapter.Clear();
+        }
+    }
+
+    public class InstrumentsAdapter
+    {
+        private Dictionary<Guid, Guid> _NewInstrumentsVersion;
+        private Hashtable _OldInstrumentVersion;
+        public InstrumentsAdapter(Dictionary<Guid, Guid> newVersion, Hashtable oldVersion)
+        {
+            _NewInstrumentsVersion = newVersion;
+            _OldInstrumentVersion = oldVersion;
+        }
+
+        public Guid this[Guid key]
+        {
+            get
+            {
+                if (!_NewInstrumentsVersion.ContainsKey(key))
+                    throw new ArgumentOutOfRangeException(string.Format("argument: {0} not in container", key));
+                return _NewInstrumentsVersion[key];
+            }
+            set
+            {
+                if (!_NewInstrumentsVersion.ContainsKey(key))
+                {
+                    _NewInstrumentsVersion.Add(key, value);
+                    _OldInstrumentVersion.Add(key, value);
+                }
+                else
+                {
+                    _NewInstrumentsVersion[key] = value;
+                    _OldInstrumentVersion[key] = value;
+                }
+            }
+        }
+
+        public void Add(Guid key, Guid value)
+        {
+            if (!_NewInstrumentsVersion.ContainsKey(key))
+            {
+                _NewInstrumentsVersion.Add(key, value);
+                _OldInstrumentVersion.Add(key, value);
+            }
+        }
+
+        public void Remove(Guid key)
+        {
+            if (_NewInstrumentsVersion.ContainsKey(key))
+            {
+                _NewInstrumentsVersion.Remove(key);
+                _OldInstrumentVersion.Remove(key);
+            }
+        }
+
+        public void Clear()
+        {
+            _NewInstrumentsVersion.Clear();
+            _OldInstrumentVersion.Clear();
+        }
+
+        public bool ContainsKey(Guid key)
+        {
+            return _NewInstrumentsVersion.ContainsKey(key);
+        }
+
+        public Dictionary<Guid,Guid>.KeyCollection GetKeys()
+        {
+            return _NewInstrumentsVersion.Keys;
+        }
+
+        public int Count
+        {
+            get
+            {
+                return _NewInstrumentsVersion.Count;
+            }
         }
 
     }
