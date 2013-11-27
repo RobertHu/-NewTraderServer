@@ -70,7 +70,7 @@ namespace Trader.Server
                     {
                         continue;
                     }
-                    if (workItem.ClientInfo.Session == Session.InvalidValue)
+                    if (workItem.ClientInfo.Session == Session.InvalidSession)
                     {
                         continue;
                     }
