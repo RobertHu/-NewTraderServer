@@ -16,6 +16,7 @@ using System.Configuration;
 using log4net;
 using Trader.Server.Util;
 using Trader.Common;
+using Trader.Server.SessionNamespace;
 namespace Trader.Server.Bll
 {
     public class TradingConsoleServer
@@ -624,52 +625,28 @@ namespace Trader.Server.Bll
             return instruments;
         }
 
-        public void UpdateInstrumentSetting(DataSet instruments, string[] instrumentIDs, TradingConsoleState state)
+        public void UpdateInstrumentSetting(DataSet instruments, string[] instrumentIDs, TraderState state)
         {
             DataRowCollection rows;
-
             if (instrumentIDs.Length <= 0)
             {
-                state.Instruments.Clear();
+                state.ClearInstrumentQuotePolicyIdMapping();
             }
             else
             {
-                ArrayList keys = new ArrayList();
-                foreach (Guid key in state.Instruments.Keys)
+                List<Guid> notExistKeys = state.InstrumentsEx.Keys.Where(key => !instrumentIDs.Contains(key.ToString())).ToList();
+                foreach(var key in notExistKeys)
                 {
-                    bool isExists = false;
-                    foreach (string instrumentID in instrumentIDs)
-                    {
-                        if (key.ToString().ToUpper() == instrumentID.ToUpper())
-                        {
-                            isExists = true;
-                            break;
-                        }
-                    }
-                    if (!isExists)
-                        keys.Add(key);
-                }
-
-                for (int i = 0; i < keys.Count; i++)
-                {
-                    state.Instruments.Remove(keys[i]);
+                    state.RemoveInstrumentIDToQuotePolicyMapping(key);
                 }
                 if (instruments != null && instruments.Tables.Count > 0)
                 {
-                    StringBuilder quotePolicyInfo = new StringBuilder();
-                    quotePolicyInfo.Append("SessionId = " + state.SessionId + "\t");
-
                     rows = instruments.Tables["Instrument"].Rows;
                     foreach (DataRow instrumentRow in rows)
                     {
-                        if (!state.Instruments.ContainsKey(instrumentRow["ID"]))
+                        if (!state.InstrumentsEx.ContainsKey((Guid)instrumentRow["ID"]))
                         {
-                            state.Instruments.Add(instrumentRow["ID"], instrumentRow["QuotePolicyID"]);
-
-                            if (quotePolicyInfo.Length > 0) quotePolicyInfo.Append(";");
-                            quotePolicyInfo.Append(instrumentRow["ID"]);
-                            quotePolicyInfo.Append("=");
-                            quotePolicyInfo.Append(instrumentRow["QuotePolicyID"]);
+                            state.AddInstrumentIDToQuotePolicyMapping((Guid)instrumentRow["ID"], (Guid)instrumentRow["QuotePolicyID"]);
                         }
                     }
                 }

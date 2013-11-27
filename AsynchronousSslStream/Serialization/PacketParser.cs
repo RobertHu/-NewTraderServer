@@ -70,8 +70,8 @@ namespace Trader.Server.Serialization
 
         private static SerializedInfo ParseJsonPacket(Session session, string content)
         {
-            JObject jsonContent = JObject.Parse(content);
-            var clientInvokeIdProperty = jsonContent[RequestConstants.InvokeIdNodeName];
+            JsonContent jsonContent = new JsonContent(request:JObject.Parse(content));
+            var clientInvokeIdProperty = jsonContent.Request[RequestConstants.InvokeIdNodeName];
             string clientInvokeId = clientInvokeIdProperty == null ? string.Empty : clientInvokeIdProperty.ToString();
             return SerializedInfo.CreateForJson(session, clientInvokeId, jsonContent);
         }

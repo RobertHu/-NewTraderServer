@@ -118,7 +118,7 @@ namespace Trader.Server.Serialization
             }
             else if (contentNode.ContentType == ContentType.Json)
             {
-                contentNode.JsonContent.Add(RequestConstants.InvokeIdNodeName, invokeID);
+                return;
             }
             else
             {
@@ -169,7 +169,7 @@ namespace Trader.Server.Serialization
             }
             else
             {
-                bytes = PacketConstants.ContentEncoding.GetBytes(content.JsonContent.ToString(Formatting.None));
+                bytes = PacketConstants.ContentEncoding.GetBytes(content.JsonContent.Response);
             }
             return bytes;
         }

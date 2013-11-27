@@ -149,7 +149,7 @@ namespace Trader.Server.Bll
             else
             {
                 Debug.Assert(appType == AppType.CppTrader);
-                request.UpdateContent(JsonResponse.NewErrorResult());
+                request.UpdateContent(JsonResponse.NewErrorResult(request.ClientInfo.ClientInvokeId));
             }
             SendCenter.Default.Send(request);
         }

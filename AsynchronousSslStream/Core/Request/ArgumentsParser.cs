@@ -20,7 +20,7 @@ namespace Trader.Server.Core.Request
             }
             else if (content.ContentType == ContentType.Json)
             {
-                return ParseJson(content.JsonContent);
+                return ParseJson(content.JsonContent.Request);
             }
             else
             {

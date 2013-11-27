@@ -36,7 +36,7 @@ namespace Trader.Server.Core.Request
             {
                 result = RequestTable.Default.Execute(methodName, request, token);
             }
-            if (request.ClientInfo.ClientId != Session.InvalidValue)
+            if (request.ClientInfo.ClientId != Session.InvalidSession)
                 request.ClientInfo.UpdateSession(request.ClientInfo.ClientId);
         }
 

@@ -48,7 +48,7 @@ namespace Trader.Server.Ssl
                 var sender = Application.Default.AgentController.GetSender(_Current.ClientId);
                 var remoteIp = _Current.RemoteIp;
                 request.ClientInfo.Initialize(_Current.ClientId, sender, remoteIp);
-                if (request.ClientInfo.Session == Session.InvalidValue)
+                if (request.ClientInfo.Session == Session.InvalidSession)
                     request.ClientInfo.UpdateSession(_Current.ClientId);
                 ProcessRequest(request);
             }

@@ -57,7 +57,7 @@ namespace Trader.Server.Bll.Common
             else if (appType == AppType.CppTrader)
             {
                 LoginResult result = new LoginResult { SessionId = _Request.ClientInfo.Session.ToString(), ServerDateTime=DateTime.Now.ToStandrandDateTimeStr() };
-                _Request.UpdateContent(JsonResponse.NewResult(result));
+                _Request.UpdateContent(JsonResponse.NewResult(_Request.ClientInfo.ClientInvokeId,result));
                 SendCenter.Default.Send(_Request);
             }
             if (System.Configuration.ConfigurationManager.AppSettings["MobileDebug"] == "true")

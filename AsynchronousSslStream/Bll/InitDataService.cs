@@ -60,17 +60,11 @@ namespace Trader.Server.Bll
         public static DataSet Init(Session session, DataSet initData)
         {
             TraderState state = SessionManager.Default.GetTradingConsoleState(session);
-            StringBuilder quotePolicyInfo = new StringBuilder();
-            quotePolicyInfo.Append("SessionId = " + state.SessionId + "\t");
             DataRowCollection rows = initData.Tables["Instrument"].Rows;
             List<Guid> instrumentsFromBursa = new List<Guid>();
             foreach (DataRow instrumentRow in rows)
             {
                 state.AddInstrumentIDToQuotePolicyMapping((Guid)instrumentRow["ID"], (Guid)instrumentRow["QuotePolicyID"]);
-                if (quotePolicyInfo.Length > 0) quotePolicyInfo.Append(";");
-                quotePolicyInfo.Append(instrumentRow["ID"]);
-                quotePolicyInfo.Append("=");
-                quotePolicyInfo.Append(instrumentRow["QuotePolicyID"]);
                 if (IsFromBursa(instrumentRow))
                 {
                     instrumentsFromBursa.Add((Guid)instrumentRow["ID"]);

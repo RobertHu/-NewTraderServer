@@ -15,7 +15,7 @@ namespace Trader.Server.Core.Request
         public PacketContent Process(SerializedInfo request)
         {
             Debug.Assert(request.Content.ContentType == ContentType.Json);
-            var methodProperty = request.Content.JsonContent[RequestConstants.MethodNodeName];
+            var methodProperty = request.Content.JsonContent.Request[RequestConstants.MethodNodeName];
             if (methodProperty == null)
                 throw new NotSupportedException();
             string methodName = methodProperty.ToString();

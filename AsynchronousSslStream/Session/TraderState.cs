@@ -41,6 +41,15 @@ namespace Trader.Server.SessionNamespace
             }
         }
 
+        public void RemoveInstrumentIDToQuotePolicyMapping(Guid instrumentId)
+        {
+            if (this._InstrumentsEx.ContainsKey(instrumentId))
+            {
+                this._InstrumentsEx.Remove(instrumentId);
+                this.Instruments.Remove(instrumentId);
+            }
+        }
+
         private void Copy(Hashtable source,Hashtable destination)
         {
             foreach (DictionaryEntry item in source)
@@ -55,17 +64,23 @@ namespace Trader.Server.SessionNamespace
 
         public void CaculateQuotationFilterSign()
         {
-            List<Guid> instrumentIds = new List<Guid>(this.Instruments.Keys.Cast<Guid>());
+            List<Guid> instrumentIds = new List<Guid>(this.InstrumentsEx.Keys);
             instrumentIds.Sort();
             StringBuilder sb = new StringBuilder();
             foreach (Guid instrumentId in instrumentIds)
             {
                 sb.Append(instrumentId);
-                sb.Append(this.Instruments[instrumentId]);
+                sb.Append(this.InstrumentsEx[instrumentId]);
             }
             byte[] sign = MD5.Create().ComputeHash(ASCIIEncoding.ASCII.GetBytes(sb.ToString()));
             this.QuotationFilterSign = Convert.ToBase64String(sign);
             this.SignMapping = QuotationFilterSignMapping.AddSign(this.QuotationFilterSign);
+        }
+
+        public void ClearInstrumentQuotePolicyIdMapping()
+        {
+            _InstrumentsEx.Clear();
+            Instruments.Clear();
         }
 
     }

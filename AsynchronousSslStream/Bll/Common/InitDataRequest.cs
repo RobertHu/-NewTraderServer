@@ -62,8 +62,8 @@ namespace Trader.Server.Bll.Common
 
         private void ExecuteCppTraderRequest()
         {
-            var initDataService = new CppTrader.ApplicationLayer.InitDataService();
-            initDataService.GetInitData(_Request.ClientInfo.Session);
+            var initDataService = new CppTrader.ApplicationLayer.InitDataService(_Request,_Token);
+            initDataService.AsyncGetInitData();
         }
 
         private void ExecuteJavaTraderRequest()

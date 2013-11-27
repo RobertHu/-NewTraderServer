@@ -42,7 +42,7 @@ namespace Trader.Server.Serialization
             return target;
         }
 
-        public static SerializedInfo CreateForJson(Session session, string clientInvokeId, JObject content)
+        public static SerializedInfo CreateForJson(Session session, string clientInvokeId, JsonContent content)
         {
             SerializedInfo target = new SerializedInfo()
             {
@@ -115,7 +115,7 @@ namespace Trader.Server.Serialization
             this.ContentType = ContentType.UnmanageMemory;
         }
 
-        public PacketContent(JObject jsonContent)
+        public PacketContent(JsonContent jsonContent)
         {
             this.JsonContent = jsonContent;
             this.ContentType = ContentType.Json;
@@ -129,8 +129,19 @@ namespace Trader.Server.Serialization
 
         public XElement XmlContent { get; private set; }
         public UnmanagedMemory UnmanageMem { get; private set; }
-        public JObject JsonContent { get; private set; }
+        public JsonContent JsonContent { get; private set; }
         public KeepAlive KeepAlive { get; private set; }
         public ContentType ContentType { get;private  set; }
+    }
+
+    public class JsonContent
+    {
+        public JsonContent(JObject request=null,string response = null)
+        {
+            this.Request = request;
+            this.Response = response;
+        }
+        public string Response { get; private set; }
+        public JObject Request { get; private set; }
     }
 }
