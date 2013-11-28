@@ -130,11 +130,11 @@ namespace Trader.Server.Service
         public XmlNode VerifyRefrence(Session session,State state, XmlNode xmlCommands, out bool changed)
         {
             changed = false;
-            if (!(state is TradingConsoleState)) return xmlCommands;
+            if (!(state is TraderState)) return xmlCommands;
 
-            TradingConsoleState tradingConsoleState = (TradingConsoleState)state;
+            TraderState tradingConsoleState = (TraderState)state;
 
-            ArrayList instrumentIDs = new ArrayList();
+            List<Guid> instrumentIDs = new List<Guid>();
 
             try
             {
@@ -147,7 +147,7 @@ namespace Trader.Server.Service
                         case "Execute2":
                             tran = (XmlElement)xmlElement.GetElementsByTagName("Transaction")[0];
                             instrumentID = XmlConvert.ToGuid(tran.Attributes["InstrumentID"].Value);
-                            if (!tradingConsoleState.Instruments.ContainsKey(instrumentID))
+                            if (!tradingConsoleState.InstrumentsView.ContainsKey(instrumentID))
                             {
                                 instrumentIDs.Add(instrumentID);
                                 changed = true;
@@ -196,7 +196,7 @@ namespace Trader.Server.Service
             return this.VerifyRefrence(session,state, xmlCommands, out changed);
         }
 
-        public DataSet GetInstruments(Session session,ArrayList instrumentIDs)
+        public DataSet GetInstruments(Session session,List<Guid> instrumentIDs)
         {
             try
             {

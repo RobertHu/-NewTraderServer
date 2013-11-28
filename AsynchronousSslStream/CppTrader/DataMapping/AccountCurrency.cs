@@ -12,7 +12,7 @@ namespace Trader.Server.CppTrader.DataMapping
             get;
             set;
         }
-            
+
         public Guid CurrencyId
         {
             get;
@@ -80,6 +80,18 @@ namespace Trader.Server.CppTrader.DataMapping
         }
 
         public decimal? FrozenFund
+        {
+            get;
+            set;
+        }
+
+        public decimal? TotalPaidAmount
+        {
+            get;
+            set;
+        }
+
+        public decimal? PartialPaymentPhysicalNecessary
         {
             get;
             set;

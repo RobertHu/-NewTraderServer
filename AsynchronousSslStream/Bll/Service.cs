@@ -21,6 +21,7 @@ using Trader.Server.TypeExtension;
 using Trader.Common;
 using System.Xml.Linq;
 using Trader.Server.SessionNamespace;
+using System.Collections.Generic;
 namespace Trader.Server.Bll
 {
     public class Service
@@ -354,7 +355,7 @@ namespace Trader.Server.Bll
 
    
 
-        public DataSet GetInstruments(Session session,ArrayList instrumentIDs)
+        public DataSet GetInstruments(Session session,List<Guid> instrumentIDs)
         {
             try
             {

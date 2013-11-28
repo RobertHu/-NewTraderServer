@@ -8,31 +8,35 @@ namespace Trader.Server.CppTrader.DataMapping
 {
     public class AccountBalance
     {
-        public Guid AccountId{ get; set; }
+        public Guid AccountId { get; set; }
 
         public Guid? CurrencyId { get; set; }
 
-        public decimal? Balance{ get; set; }
+        public decimal? Balance { get; set; }
 
-        public decimal? Necessary{ get; set; }
+        public decimal? Necessary { get; set; }
 
         public decimal? PedgeAmount { get; set; }
 
         public decimal? FrozenFund { get; set; }
-        
-        public decimal? InterestPLNotValued{ get; set; }
 
-        public decimal? StoragePLNotValued{ get; set; }
+        public decimal? TotalPaidAmount { get; set; }
 
-        public decimal? TradePLNotValued{ get; set; }
+        public decimal? PartialPaymentPhysicalNecessary { get; set; }
 
-        public decimal? InterestPLFloat{ get; set; }
+        public decimal? InterestPLNotValued { get; set; }
 
-        public decimal? StoragePLFloat{ get; set; }
+        public decimal? StoragePLNotValued { get; set; }
 
-        public decimal? TradePLFloat{ get; set; }
+        public decimal? TradePLNotValued { get; set; }
 
-        public AlertLevel AlertLevel{ get; set; }
+        public decimal? InterestPLFloat { get; set; }
+
+        public decimal? StoragePLFloat { get; set; }
+
+        public decimal? TradePLFloat { get; set; }
+
+        public AlertLevel AlertLevel { get; set; }
 
         public decimal? UnclearAmount { get; set; }
 

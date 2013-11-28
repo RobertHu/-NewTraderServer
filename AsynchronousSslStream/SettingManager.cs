@@ -92,5 +92,14 @@ namespace Trader.Server
             }
             catch { throw; }
         }
+
+        public string GetCppTraderSettings(string key)
+        {
+            try
+            {
+                return ServiceConfigurationSetting.Defalut.CppTraderSettings[key];
+            }
+            catch { throw; }
+        }
     }
 }

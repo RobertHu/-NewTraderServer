@@ -10,17 +10,16 @@ namespace Trader.Server.SessionNamespace
 {
     public class TraderState : TradingConsoleState
     {
-        private Dictionary<Guid, Guid> _InstrumentsEx = new Dictionary<Guid, Guid>();
         private InstrumentsAdapter _InstrumentsAdapter;
         public TraderState(string sessionId)
             : base(sessionId)
         {
-            _InstrumentsAdapter = new InstrumentsAdapter(_InstrumentsEx, Instruments);
+            _InstrumentsAdapter = new InstrumentsAdapter(Instruments);
         }
         public TraderState(TradingConsoleState state)
             : base(state.SessionId)
         {
-            _InstrumentsAdapter = new InstrumentsAdapter(_InstrumentsEx, Instruments);
+            _InstrumentsAdapter = new InstrumentsAdapter(Instruments);
             if (state != null)
             {
                 Copy(state.AccountGroups, this.AccountGroups);
@@ -88,9 +87,9 @@ namespace Trader.Server.SessionNamespace
     {
         private Dictionary<Guid, Guid> _NewInstrumentsVersion;
         private Hashtable _OldInstrumentVersion;
-        public InstrumentsAdapter(Dictionary<Guid, Guid> newVersion, Hashtable oldVersion)
+        public InstrumentsAdapter(Hashtable oldVersion)
         {
-            _NewInstrumentsVersion = newVersion;
+            _NewInstrumentsVersion = new Dictionary<Guid, Guid>();
             _OldInstrumentVersion = oldVersion;
         }
 

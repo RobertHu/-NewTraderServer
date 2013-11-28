@@ -10,50 +10,19 @@ namespace Trader.Server.Config
     public class ServiceConfigurationSetting
     {
         public static readonly ServiceConfigurationSetting Defalut = new ServiceConfigurationSetting();
-        private object _Lock = new object();
-        private ServiceConfigurationSetting() { }
-
-        private NameValueCollection _V3Services;
-
-        public NameValueCollection V3Services
+        private ServiceConfigurationSetting() 
         {
-            get
-            {
-                if (this._V3Services == null)
-                {
-                    lock (_Lock)
-                    {
-                        if (this._V3Services == null)
-                        {
-                            this._V3Services = FillSettins(ServiceSettings.GetConfig().V3Services);
-                        }
-                    }
-                }
-                return this._V3Services;
-            }
+            var configSection = ServiceSettings.GetConfig();
+            this.V3Services = FillSettins(configSection.V3Services);
+            this.JavaTraderSettings = FillSettins(configSection.JavaTraderSettings);
+            this.CppTraderSettings = FillSettins(configSection.CppTraderSettings);
         }
 
+        public NameValueCollection V3Services { get; private set; }
 
-        private NameValueCollection _JavaTraderSettings;
-        public NameValueCollection JavaTraderSettings
-        {
-            get
-            {
-                if (_JavaTraderSettings == null)
-                {
-                    lock (_Lock)
-                    {
-                        if (_JavaTraderSettings == null)
-                        {
-                            _JavaTraderSettings = FillSettins(ServiceSettings.GetConfig().JavaTraderSettings);
-                        }
-                    }
-                }
-                return _JavaTraderSettings;
-            }
-        }
+        public NameValueCollection JavaTraderSettings { get; private set; }
 
-
+        public NameValueCollection CppTraderSettings { get; private set; }
 
 
         private NameValueCollection FillSettins(ServiceCollection col)
@@ -72,34 +41,41 @@ namespace Trader.Server.Config
 
     public class ServiceSettings : ConfigurationSection
     {
-        private const string _settingName= "ServiceSettings";
-        private static ServiceSettings _settings = ConfigurationManager.GetSection(_settingName) as ServiceSettings
+        private const string _SettingName= "ServiceSettings";
+        private const string _V3ServiceSection = "V3Services";
+        private const string _JavaTraderSection = "JavaTraderSettings";
+        private const string _CppTraderSection = "CppTraderSettings";
+        private static ServiceSettings _Settings = ConfigurationManager.GetSection(_SettingName) as ServiceSettings
                                             ?? new ServiceSettings();
-        public static ServiceSettings GetConfig() { return _settings; }
+        public static ServiceSettings GetConfig() { return _Settings; }
 
-        [ConfigurationProperty("V3Services")]
+        [ConfigurationProperty(_V3ServiceSection)]
         public ServiceCollection V3Services
         {
             get
             {
-                return (ServiceCollection)this["V3Services"] ?? new ServiceCollection();
+                return (ServiceCollection)this[_V3ServiceSection] ?? new ServiceCollection();
             }
         }
 
 
-        [ConfigurationProperty("JavaTraderSettings")]
+        [ConfigurationProperty(_JavaTraderSection)]
         public ServiceCollection JavaTraderSettings
         {
             get
             {
-                return (ServiceCollection)this["JavaTraderSettings"] ?? new ServiceCollection();
+                return (ServiceCollection)this[_JavaTraderSection] ?? new ServiceCollection();
             }
         }
 
-
-        
-
-
+        [ConfigurationProperty(_CppTraderSection)]
+        public ServiceCollection CppTraderSettings
+        {
+            get
+            {
+                return (ServiceCollection)this[_CppTraderSection] ?? new ServiceCollection();
+            }
+        }
 
     }
 }

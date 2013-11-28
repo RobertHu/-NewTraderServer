@@ -237,7 +237,7 @@ namespace Trader.Server.CppTrader.DataMapping
             get;
             set;
         }
-        
+
         public decimal? DiscountOfOdd
         {
             get;
@@ -249,7 +249,7 @@ namespace Trader.Server.CppTrader.DataMapping
             get;
             set;
         }
-        
+
         public decimal? PhysicalMinDeliveryQuantity
         {
             get;
@@ -274,10 +274,11 @@ namespace Trader.Server.CppTrader.DataMapping
             set;
         }
 
-        public decimal? InstalmentPledgeDiscount
+        public decimal? PartPaidPhysicalNecessary
         {
             get;
             set;
-        }        
+        }
+
     }
 }

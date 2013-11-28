@@ -115,7 +115,7 @@ namespace Trader.Server.CppTrader.DataMapping
             get;
             set;
         }
-        
+
         public decimal? PhysicalPaidAmount
         {
             get;
@@ -139,7 +139,7 @@ namespace Trader.Server.CppTrader.DataMapping
             get;
             set;
         }
-                
+
         public Guid? InstalmentPolicyId
         {
             get;
@@ -157,7 +157,7 @@ namespace Trader.Server.CppTrader.DataMapping
             get;
             set;
         }
-        
+
         public int? Period
         {
             get;
@@ -169,7 +169,7 @@ namespace Trader.Server.CppTrader.DataMapping
             get;
             set;
         }
-        
+
         public bool? IsInstalmentOverdue
         {
             get;
@@ -187,13 +187,31 @@ namespace Trader.Server.CppTrader.DataMapping
             get;
             set;
         }
-        
+
+        public decimal? PhysicalOriginValueBalance
+        {
+            get;
+            set;
+        }
+
         public int? DownPaymentBasis
         {
             get;
             set;
         }
- 
+
+        public decimal? PaidPledge
+        {
+            get;
+            set;
+        }
+
+        public decimal? PaidPledgeBalance
+        {
+            get;
+            set;
+        }
+
         public override string ToString()
         {
             return string.Format("Id={0}, TransactionId={1}, Code={2}, Lot={3}, MinLot={4}, IsOpen={5}, IsBuy={6}, SetPrice={7}, SetPrice2={8}, LimitPriceForIfDone={9}, StopPriceForIfDone={10}, TradeOption={11}, DQMaxMove={12}, MaxShow={13}",

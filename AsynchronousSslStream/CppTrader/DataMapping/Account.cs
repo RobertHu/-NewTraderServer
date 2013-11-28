@@ -107,6 +107,9 @@ namespace Trader.Server.CppTrader.DataMapping
 
         public Guid? OldCustomerId { get; set; }
 
-        public bool AllowChangePasswordInTrader { get; set; }        
+        public bool AllowChangePasswordInTrader { get; set; }
+
+        public decimal? RiskActionMinimumEquity { get; set; }        
+
     }
 }

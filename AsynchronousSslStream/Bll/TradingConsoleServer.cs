@@ -481,7 +481,7 @@ namespace Trader.Server.Bll
             return (dataSet);
         }
 
-        public DataSet GetInstruments(Token token, ArrayList instrumentIDs, TradingConsoleState state)
+        public DataSet GetInstruments(Token token, List<Guid> instrumentIDs, TradingConsoleState state)
         {
             string xmlInstrumentIDs = string.Empty;
 

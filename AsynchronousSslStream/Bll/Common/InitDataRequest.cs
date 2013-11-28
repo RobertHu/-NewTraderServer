@@ -62,7 +62,7 @@ namespace Trader.Server.Bll.Common
 
         private void ExecuteCppTraderRequest()
         {
-            var initDataService = new CppTrader.ApplicationLayer.InitDataService(_Request,_Token);
+            var initDataService = new CppTrader.InitDataService(_Request,_Token);
             initDataService.AsyncGetInitData();
         }
 
